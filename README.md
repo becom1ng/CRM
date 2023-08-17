@@ -1,1 +1,2 @@
-# aspnet-core-fundamentals-v3
+# Asp.Net Core Fundamentals
+Nexul Academy Course Work
