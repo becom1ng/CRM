@@ -1,0 +1,11 @@
+C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm\bin\Debug\net6.0\SimpleCrm.deps.json
+C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm\bin\Debug\net6.0\SimpleCrm.dll
+C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm\bin\Debug\net6.0\SimpleCrm.pdb
+C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm\obj\Debug\net6.0\SimpleCrm.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm\obj\Debug\net6.0\SimpleCrm.AssemblyInfoInputs.cache
+C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm\obj\Debug\net6.0\SimpleCrm.AssemblyInfo.cs
+C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm\obj\Debug\net6.0\SimpleCrm.csproj.CoreCompileInputs.cache
+C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm\obj\Debug\net6.0\SimpleCrm.dll
+C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm\obj\Debug\net6.0\refint\SimpleCrm.dll
+C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm\obj\Debug\net6.0\SimpleCrm.pdb
+C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm\obj\Debug\net6.0\ref\SimpleCrm.dll

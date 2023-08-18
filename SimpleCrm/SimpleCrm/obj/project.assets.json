@@ -1,30 +1,11 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {
-      "SimpleCrm/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
-        "compile": {
-          "bin/placeholder/SimpleCrm.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SimpleCrm.dll": {}
-        }
-      }
-    }
+    "net6.0": {}
   },
-  "libraries": {
-    "SimpleCrm/1.0.0": {
-      "type": "project",
-      "path": "../SimpleCrm/SimpleCrm.csproj",
-      "msbuildProject": "../SimpleCrm/SimpleCrm.csproj"
-    }
-  },
+  "libraries": {},
   "projectFileDependencyGroups": {
-    "net6.0": [
-      "SimpleCrm >= 1.0.0"
-    ]
+    "net6.0": []
   },
   "packageFolders": {
     "C:\\Users\\Ryan\\.nuget\\packages\\": {}
@@ -32,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ryan\\Programming\\Nexul\\aspnet-core-fundamentals-v3\\SimpleCrm\\SimpleCrm.Web\\SimpleCrm.Web.csproj",
-      "projectName": "SimpleCrm.Web",
-      "projectPath": "C:\\Users\\Ryan\\Programming\\Nexul\\aspnet-core-fundamentals-v3\\SimpleCrm\\SimpleCrm.Web\\SimpleCrm.Web.csproj",
+      "projectUniqueName": "C:\\Users\\Ryan\\Programming\\Nexul\\aspnet-core-fundamentals-v3\\SimpleCrm\\SimpleCrm\\SimpleCrm.csproj",
+      "projectName": "SimpleCrm",
+      "projectPath": "C:\\Users\\Ryan\\Programming\\Nexul\\aspnet-core-fundamentals-v3\\SimpleCrm\\SimpleCrm\\SimpleCrm.csproj",
       "packagesPath": "C:\\Users\\Ryan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ryan\\Programming\\Nexul\\aspnet-core-fundamentals-v3\\SimpleCrm\\SimpleCrm.Web\\obj\\",
+      "outputPath": "C:\\Users\\Ryan\\Programming\\Nexul\\aspnet-core-fundamentals-v3\\SimpleCrm\\SimpleCrm\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Ryan\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -52,11 +33,7 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {
-            "C:\\Users\\Ryan\\Programming\\Nexul\\aspnet-core-fundamentals-v3\\SimpleCrm\\SimpleCrm\\SimpleCrm.csproj": {
-              "projectPath": "C:\\Users\\Ryan\\Programming\\Nexul\\aspnet-core-fundamentals-v3\\SimpleCrm\\SimpleCrm\\SimpleCrm.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {
@@ -80,9 +57,6 @@
         "assetTargetFallback": true,
         "warn": true,
         "frameworkReferences": {
-          "Microsoft.AspNetCore.App": {
-            "privateAssets": "none"
-          },
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
