@@ -24,3 +24,4 @@ C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm.
 C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm.Web\obj\Debug\net6.0\SimpleCrm.Web.pdb
 C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm.Web\obj\Debug\net6.0\SimpleCrm.Web.genruntimeconfig.cache
 C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm.Web\obj\Debug\net6.0\ref\SimpleCrm.Web.dll
+C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm.Web\bin\Debug\net6.0\SimpleCrm.Web.staticwebassets.runtime.json

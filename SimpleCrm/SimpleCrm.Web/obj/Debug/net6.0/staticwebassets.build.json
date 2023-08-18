@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "wXctQRR0w+7hCegntjraEM9rLh+Kn+ll5/hV3z8qSoI=",
+  "Hash": "FupiBEhPfUjB77XFxk7zAWzbcGva4ezbD/EM5BDikyM=",
   "Source": "SimpleCrm.Web",
   "BasePath": "_content/SimpleCrm.Web",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "SimpleCrm.Web\\wwwroot",
+      "Source": "SimpleCrm.Web",
+      "ContentRoot": "C:\\Users\\Ryan\\Programming\\Nexul\\aspnet-core-fundamentals-v3\\SimpleCrm\\SimpleCrm.Web\\wwwroot\\",
+      "BasePath": "_content/SimpleCrm.Web",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }
