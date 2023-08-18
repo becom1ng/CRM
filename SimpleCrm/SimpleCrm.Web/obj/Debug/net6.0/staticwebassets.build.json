@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "wXctQRR0w+7hCegntjraEM9rLh+Kn+ll5/hV3z8qSoI=",
+  "Source": "SimpleCrm.Web",
+  "BasePath": "_content/SimpleCrm.Web",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
