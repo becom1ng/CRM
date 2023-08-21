@@ -28,3 +28,5 @@ C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm.
 C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm.Web\bin\Debug\net6.0\SimpleCrm.dll
 C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm.Web\bin\Debug\net6.0\SimpleCrm.pdb
 C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm.Web\obj\Debug\net6.0\SimpleCrm.Web.csproj.CopyComplete
+C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm.Web\obj\Debug\net6.0\SimpleCrm.Web.Properties.Resources.resources
+C:\Users\Ryan\Programming\Nexul\aspnet-core-fundamentals-v3\SimpleCrm\SimpleCrm.Web\obj\Debug\net6.0\SimpleCrm.Web.csproj.GenerateResource.cache

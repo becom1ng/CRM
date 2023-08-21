@@ -1,3 +1,6 @@
+using Microsoft.Extensions.Configuration;
+using System.Security.Cryptography.X509Certificates;
+
 namespace SimpleCrm.Web
 {
     public class Program
@@ -7,7 +10,10 @@ namespace SimpleCrm.Web
             var builder = WebApplication.CreateBuilder(args);
             var app = builder.Build();
 
-            app.MapGet("/", () => "Hello and welcome to my first ASP.NET application!");
+            ConfigurationManager configuration = builder.Configuration;
+
+            var greeting = configuration["Greeting"];
+            app.MapGet("/", () => greeting);
 
             app.Run();
         }
