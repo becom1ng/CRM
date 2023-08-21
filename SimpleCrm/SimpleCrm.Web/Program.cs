@@ -1,6 +1,3 @@
-using Microsoft.Extensions.Configuration;
-using System.Security.Cryptography.X509Certificates;
-
 namespace SimpleCrm.Web
 {
     public class Program
