@@ -11,7 +11,6 @@ namespace SimpleCrm
         public string GetGreeting()
         {
             throw new NotImplementedException();
-            // ADD IMPLEMENTATION OF CONFIGURATION FROM HOMEWORK ASSIGNMENT
         }
     }
 }

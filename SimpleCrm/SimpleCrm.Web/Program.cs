@@ -5,14 +5,17 @@ namespace SimpleCrm.Web
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var startup = new Startup(builder.Configuration); // My custom startup class.
 
-            // REGISTER SERVICES HERE
-            builder.Services.AddRazorPages();
-            builder.Services.AddSingleton<IGreeter, ConfigurationGreeter>();
+            startup.ConfigureServices(builder.Services); // Add services to the container.
+
+            // REGISTER SERVICES HERE if using the new .net 6 method
+            //builder.Services.AddSingleton<IGreeter, ConfigurationGreeter>();
 
             var app = builder.Build();
 
-            // REGISTER MIDDLEWARE HERE
+            IGreeter greeter = new ConfigurationGreeter();
+            startup.Configure(app, app.Environment, greeter); // Configure the HTTP request pipeline.
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -22,28 +25,7 @@ namespace SimpleCrm.Web
                 app.UseHsts();
             }
 
-            // Use appsettings.Development.json for greeting. Step 004 of lesson.
-            //ConfigurationManager configuration = builder.Configuration;
-            //var greeting = configuration["Greeting"];
-            //app.MapGet("/", () => greeting);
-            
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseRouting();
-            app.UseAuthorization();
-            app.MapRazorPages();
-
-            var greeter = app.Services.GetService<IGreeter>();
-            app.MapGet("/", () => greeter.GetGreeting());
-
             app.Run();
         }
-
-        //private readonly IGreeter _greeter;
-
-        //public Program(IGreeter greeter)
-        //{
-        //    _greeter = greeter;
-        //}
-    }
+    }    
 }
