@@ -5,6 +5,7 @@ namespace SimpleCrm.Web
         // SERVICES - This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
             services.AddSingleton<IGreeter, ConfigurationGreeter>();
         }
 
@@ -23,21 +24,11 @@ namespace SimpleCrm.Web
                 });
             }
 
-            app.UseFileServer();
-            //app.UseDefaultFiles();
-            //app.UseStaticFiles();
-            app.UseWelcomePage("/welcome");
+            app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.MapGet("/hello", async context =>
-            {
-                var message = greeter.GetGreeting();
-                await context.Response.WriteAsync(message);
-            });
-
-            //var greeting = greeter.GetGreeting();
-            //app.MapGet("/", () => greeting);
+            app.MapDefaultControllerRoute();
         }
     }
 }
