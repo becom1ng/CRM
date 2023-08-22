@@ -2,15 +2,15 @@ namespace SimpleCrm.Web
 {
     public class Startup
     {
-        // SERVICES - This method gets called by the runtime. Use this method to add services to the container.
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
             services.AddSingleton<IGreeter, ConfigurationGreeter>();
         }
 
-        // MIDDLEWARE - This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(WebApplication app, IWebHostEnvironment env, IGreeter greeter)
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IGreeter greeter)
         {
             if (env.IsDevelopment())
             {
@@ -25,22 +25,26 @@ namespace SimpleCrm.Web
             }
 
             app.UseStaticFiles();
+            app.UseWelcomePage(new WelcomePageOptions
+            {
+                Path = "/welcome"
+            });
 
             app.UseRouting();
 
-            app.MapControllerRoute(
-                "default",
-                "{controller=Home}/{action=Index}/{id?}"
-                );
-            app.MapControllerRoute(
-                name: "contact",
-                pattern: "Contact/{phone}",
-                constraints: new { phone = "^\\d{3}-\\d{3}\\d{4}$" },
-                defaults: new { controller = "Contact", action = "List" }
-                );
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}"
+                    );
+                endpoints.MapControllerRoute(
+                    name: "about",
+                    pattern: "about"
+                    );
+            });
 
-            app.Run();
-            app.Run(ctx => ctx.Response.WriteAsync("Not Found"));
+            app.Run(ctx => ctx.Response.WriteAsync("Not Found."));
         }
     }
 }
