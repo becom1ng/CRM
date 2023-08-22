@@ -6,7 +6,6 @@ namespace SimpleCrm.Web
         {
             var builder = WebApplication.CreateBuilder(args);
             var startup = new Startup(builder.Configuration); // My custom startup class.
-
             startup.ConfigureServices(builder.Services); // Add services to the container.
 
             // REGISTER SERVICES HERE if using the new .net 6 method
@@ -14,7 +13,7 @@ namespace SimpleCrm.Web
 
             var app = builder.Build();
 
-            IGreeter greeter = new ConfigurationGreeter();
+            IGreeter greeter = new ConfigurationGreeter(builder.Configuration);
             startup.Configure(app, app.Environment, greeter); // Configure the HTTP request pipeline.
 
             // Configure the HTTP request pipeline.

@@ -32,7 +32,13 @@ namespace SimpleCrm.Web
             app.UseRouting();
 
             var greeting = greeter.GetGreeting();
-            app.MapGet("/", () => greeting);
+            //app.MapGet("/", () => greeting);
+
+            app.MapGet ("/", async context =>
+                {
+                var message = greeter.GetGreeting();
+                await context.Response.WriteAsync(message);
+            });
         }
     }
 }
