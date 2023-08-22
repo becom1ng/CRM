@@ -23,11 +23,14 @@ namespace SimpleCrm.Web
                 });
             }
 
+            app.UseFileServer();
+            //app.UseDefaultFiles();
+            //app.UseStaticFiles();
             app.UseWelcomePage("/welcome");
 
             app.UseRouting();
 
-            app.MapGet("/", async context =>
+            app.MapGet("/hello", async context =>
             {
                 var message = greeter.GetGreeting();
                 await context.Response.WriteAsync(message);
