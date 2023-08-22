@@ -15,21 +15,26 @@ namespace SimpleCrm.Web
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler(new ExceptionHandlerOptions
+                {
+                    ExceptionHandler = context => context.Response.WriteAsync("Oops! Something went wrong.")
+                });
+            }
 
             app.UseWelcomePage("/welcome");
 
             app.UseRouting();
 
-            var greeting = greeter.GetGreeting();
-            app.MapGet("/", () => greeting);
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapGet("/", async context =>
-            //    {
-            //        var message = greeter.GetGreeting();
-            //        await context.Response.WriteAsync(message);
-            //    });
-            //});
+            app.MapGet("/", async context =>
+            {
+                var message = greeter.GetGreeting();
+                await context.Response.WriteAsync(message);
+            });
+
+            //var greeting = greeter.GetGreeting();
+            //app.MapGet("/", () => greeting);
         }
     }
 }
