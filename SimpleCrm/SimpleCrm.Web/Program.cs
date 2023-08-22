@@ -9,9 +9,11 @@ namespace SimpleCrm.Web
             startup.ConfigureServices(builder.Services); // Add services to the container.
 
             // REGISTER SERVICES HERE if using the new .net 6 method
-            //builder.Services.AddSingleton<IGreeter, ConfigurationGreeter>();
+            // ex: builder.Services.AddSingleton<IGreeter, ConfigurationGreeter>();
 
             var app = builder.Build();
+
+            // REGISTER MIDDLEWARE HERE if using the new .net 6 method
 
             IGreeter greeter = new ConfigurationGreeter(builder.Configuration);
             startup.Configure(app, app.Environment, greeter); // Configure the HTTP request pipeline.
