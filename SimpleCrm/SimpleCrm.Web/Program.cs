@@ -5,7 +5,7 @@ namespace SimpleCrm.Web
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            var startup = new Startup(builder.Configuration); // My custom startup class.
+            var startup = new Startup(); // My custom startup class.
             startup.ConfigureServices(builder.Services); // Add services to the container.
 
             // REGISTER SERVICES HERE if using the new .net 6 method
