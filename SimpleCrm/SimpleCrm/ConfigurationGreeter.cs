@@ -14,7 +14,6 @@ namespace SimpleCrm
         public string GetGreeting()
         {
             return Configuration["Greeting"];
-            //throw new NotImplementedException();
         }
     }
 }

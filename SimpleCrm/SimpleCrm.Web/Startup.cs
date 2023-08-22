@@ -28,7 +28,19 @@ namespace SimpleCrm.Web
 
             app.UseRouting();
 
-            app.MapDefaultControllerRoute();
+            app.MapControllerRoute(
+                "default",
+                "{controller=Home}/{action=Index}/{id?}"
+                );
+            app.MapControllerRoute(
+                name: "contact",
+                pattern: "Contact/{phone}",
+                constraints: new { phone = "^\\d{3}-\\d{3}\\d{4}$" },
+                defaults: new { controller = "Contact", action = "List" }
+                );
+
+            app.Run();
+            app.Run(ctx => ctx.Response.WriteAsync("Not Found"));
         }
     }
 }
