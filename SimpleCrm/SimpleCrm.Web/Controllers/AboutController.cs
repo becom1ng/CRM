@@ -3,7 +3,7 @@
 namespace SimpleCrm.Web.Controllers
 {
     [Route("about")]
-    public class AboutController
+    public class AboutController : Controller
     {
         [Route("")]
         [Route("phone")]
