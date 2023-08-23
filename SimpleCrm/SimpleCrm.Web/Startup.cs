@@ -38,10 +38,6 @@ namespace SimpleCrm.Web
                     "default",
                     "{controller=Home}/{action=Index}/{id?}"
                     );
-                endpoints.MapControllerRoute(
-                    name: "about",
-                    pattern: "about"
-                    );
             });
 
             app.Run(ctx => ctx.Response.WriteAsync("Not Found."));
