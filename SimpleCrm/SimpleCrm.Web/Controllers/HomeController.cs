@@ -7,18 +7,15 @@ namespace SimpleCrm.Web.Controllers
     {
         public IActionResult Index(string id)
         {
-            if (id == null)
+            var model = new CustomerModel
             {
-                return NotFound();
-            }
+                Id = 1,
+                PhoneNumber = "555-555-1234",
+                FirstName = "John",
+                LastName = "Doe",
+            };
 
-            var model = new CustomerModel();
-            model.Id = 1;
-            model.PhoneNumber = "555-555-1234";
-            model.FirstName = "John";
-            model.LastName = "Doe";
-
-            return new ObjectResult(model);
+            return View(model);
         }
     }
 }
