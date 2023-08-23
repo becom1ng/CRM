@@ -1,12 +1,28 @@
-﻿@model SimpleCrm.Web.Models.CustomerModel
-@{
-}
+﻿@model IEnumerable<SimpleCrm.Customer>
 
 <html>
 <head>
     <title>Simple CRM</title>
 </head>
 <body>
-    <h1>@Model.FirstName @Model.LastName @Model.PhoneNumber</h1>
+    <h1>Customers</h1>
+    <p>Welcome to the customers page.</p>
+    <table>
+    @{
+        void displayCustomer(SimpleCrm.Customer cust)
+        {
+            <tr>
+                <td>@cust.Id</td>
+                <td>@cust.FirstName</td>
+                <td>@cust.LastName</td>
+                <td>@cust.PhoneNumber</td>
+            </tr>
+        }
+
+        foreach (var customer in Model) {
+            displayCustomer(customer);
+        }
+    }
+    </table>
 </body>
 </html>
