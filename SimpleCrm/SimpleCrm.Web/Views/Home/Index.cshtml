@@ -8,21 +8,15 @@
     <h1>Customers</h1>
     <p>Welcome to the customers page.</p>
     <table>
-    @{
-        void displayCustomer(SimpleCrm.Customer cust)
+        @foreach (var customer in Model)
         {
-            <tr>
-                <td>@cust.Id</td>
-                <td>@cust.FirstName</td>
-                <td>@cust.LastName</td>
-                <td>@cust.PhoneNumber</td>
-            </tr>
+                <tr>
+                    <td>@customer.Id</td>
+                    <td>@customer.FirstName</td>
+                    <td>@customer.LastName</td>
+                    <td>@customer.PhoneNumber</td>
+                </tr>
         }
-
-        foreach (var customer in Model) {
-            displayCustomer(customer);
-        }
-    }
     </table>
 </body>
 </html>
