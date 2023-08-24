@@ -11,6 +11,9 @@
         @foreach (var customer in Model.Customers)
         {
                 <tr>
+                    <td>
+                    @Html.ActionLink("Details", nameof(SimpleCrm.Web.Controllers.HomeController.Details), new { id = customer.Id })
+                    </td>
                     <td>@customer.Id</td>
                     <td>@customer.FirstName</td>
                     <td>@customer.LastName</td>

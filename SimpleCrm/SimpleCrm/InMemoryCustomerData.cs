@@ -17,6 +17,11 @@
                   };
         }
 
+        public Customer Get(int id)
+        {
+            return _customers.FirstOrDefault(x => x.Id == id);
+        }
+
         public IEnumerable<Customer> GetAll()
         {
             return _customers;

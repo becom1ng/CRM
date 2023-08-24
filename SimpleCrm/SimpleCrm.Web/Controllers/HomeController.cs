@@ -5,19 +5,27 @@ namespace SimpleCrm.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private ICustomerData _customerData; // (2) a class field to hold the needed dependency
+        private ICustomerData _customerData;
         private readonly IGreeter _greeter;
 
-        // (1) the 'constructor' can INJECT data contracts it needs like this
         public HomeController(ICustomerData customerData, IGreeter greeter)
         {
-            _customerData = customerData; // (3) store the injected dependency into a class field
+            _customerData = customerData;
             _greeter = greeter;
+        }
+
+        public IActionResult Details(int id)
+        {
+            Customer cust = _customerData.Get(id);
+            if (cust == null )
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return View(cust);
         }
 
         public IActionResult Index()
         {
-            // (4) now use the dependency...
             var model = new HomePageViewModel
             {
                 CurrentMessage = _greeter.GetGreeting(),
