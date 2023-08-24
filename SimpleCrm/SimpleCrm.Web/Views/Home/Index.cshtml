@@ -1,25 +1,21 @@
 ﻿@model SimpleCrm.Web.Models.HomePageViewModel
 
-<html>
-<head>
-    <title>Simple CRM</title>
-</head>
-<body>
-    <h1>Customers</h1>
-    <p>@Model.CurrentMessage</p>
-    <table>
-        @foreach (var customer in Model.Customers)
-        {
-                <tr>
-                    <td>
-                    @Html.ActionLink("Details", nameof(SimpleCrm.Web.Controllers.HomeController.Details), new { id = customer.Id })
-                    </td>
-                    <td>@customer.Id</td>
-                    <td>@customer.FirstName</td>
-                    <td>@customer.LastName</td>
-                    <td>@customer.PhoneNumber</td>
-                </tr>
-        }
-    </table>
-</body>
-</html>
+<title>Simple CRM</title>
+<h1>Customers</h1>
+<p>@Model.CurrentMessage</p>
+<table>
+    @foreach (var customer in Model.Customers)
+    {
+            <tr>
+                <td>
+                @Html.ActionLink("Details", 
+                nameof(SimpleCrm.Web.Controllers.HomeController.Details),
+                new { id = customer.Id })
+                </td>
+                <td>@customer.Id</td>
+                <td>@customer.FirstName</td>
+                <td>@customer.LastName</td>
+                <td>@customer.PhoneNumber</td>
+            </tr>
+    }
+</table>

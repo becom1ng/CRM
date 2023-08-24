@@ -1,13 +1,9 @@
 ﻿@model SimpleCrm.Customer
 
-<html>
-<head>
-    <title>Customer Details</title>
-</head>
-<body>
-    <h1>@Model.FirstName @Model.LastName</h1>
-    <div>
-        @Html.ActionLink("Back", nameof(SimpleCrm.Web.Controllers.HomeController.Index))
-     </div>
-</body>
-</html>
+<title>Customer Details</title>
+
+<h1>@Model.FirstName @Model.LastName</h1>
+
+<div>
+    @Html.ActionLink("Back", nameof(SimpleCrm.Web.Controllers.HomeController.Index))
+</div>

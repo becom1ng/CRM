@@ -1,0 +1,33 @@
+﻿@using SimpleCrm
+@model SimpleCrm.Customer
+
+<title>Create</title>
+
+<h1>Create</h1>
+
+@using (Html.BeginForm())
+{
+    <div>
+        @Html.LabelFor(x => x.FirstName)
+        @Html.TextBoxFor(x => x.FirstName)
+    </div>
+    <div>
+        @Html.LabelFor(x => x.LastName)
+        @Html.TextBoxFor(x => x.LastName)
+    </div>
+    <div>
+        @Html.LabelFor(x => x.PhoneNumber)
+        @Html.TextBoxFor(x => x.PhoneNumber)
+    </div>
+    <div>
+        @Html.LabelFor(x => x.OptInNewsletter, "Sign up for newsletter?")
+        @Html.CheckBoxFor(x => x.OptInNewsletter)
+    </div>
+    <div>
+        @Html.LabelFor(x => x.Type)
+        @Html.DropDownListFor(x => x.Type, Html.GetEnumSelectList(typeof(CustomerType)))
+    </div>
+    <div>
+        <input type="submit" value="Save">
+    </div>
+}
