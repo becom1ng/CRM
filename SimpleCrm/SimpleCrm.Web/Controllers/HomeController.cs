@@ -38,5 +38,10 @@ namespace SimpleCrm.Web.Controllers
         {
             return View();
         }
+
+        public IActionResult Create(Customer model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

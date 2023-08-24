@@ -1,4 +1,4 @@
-﻿namespace SimpleCrm.Web.Models
+﻿namespace SimpleCrm.Web.Models.Home
 {
     public class CustomerModel
     {
