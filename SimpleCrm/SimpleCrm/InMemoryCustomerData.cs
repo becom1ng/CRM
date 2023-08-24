@@ -2,9 +2,9 @@
 {
     public class InMemoryCustomerData : ICustomerData
     {
-        IList<Customer> _customers; //not thread safe - only ok for development, single user
+        static IList<Customer> _customers; //not thread safe - only ok for development, single user
 
-        public InMemoryCustomerData()
+        static InMemoryCustomerData()
         {
             _customers = new List<Customer>
                   {
@@ -25,6 +25,13 @@
         public IEnumerable<Customer> GetAll()
         {
             return _customers;
+        }
+
+        public Customer Save(Customer customer)
+        {
+            customer.Id = _customers.Max(x => x.Id) + 1;
+            _customers.Add(customer);
+            return customer;
         }
     }
 }

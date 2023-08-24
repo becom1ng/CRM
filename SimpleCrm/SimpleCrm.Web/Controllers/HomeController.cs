@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SimpleCrm.Web.Models;
+using SimpleCrm.Web.Models.Home;
 
 namespace SimpleCrm.Web.Controllers
 {
@@ -34,14 +34,25 @@ namespace SimpleCrm.Web.Controllers
             return View(cust);
         }
 
+        [HttpGet()]
         public IActionResult Create()
         {
             return View();
         }
 
+        [HttpPost()]
         public IActionResult Create(Customer model)
         {
-            throw new NotImplementedException();
+            var customer = new Customer
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                PhoneNumber = model.PhoneNumber,
+                OptInNewsletter = model.OptInNewsletter,
+                Type = model.Type
+            };
+            _customerData.Save(customer);
+            return View("Details", customer);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿@model HomePageViewModel
+﻿@using SimpleCrm.Web.Models.Home;
+@model HomePageViewModel
 
 <title>Simple CRM</title>
 <h1>Customers</h1>
@@ -19,3 +20,5 @@
             </tr>
     }
 </table>
+<br />
+@Html.ActionLink("Create", nameof(SimpleCrm.Web.Controllers.HomeController.Create))
