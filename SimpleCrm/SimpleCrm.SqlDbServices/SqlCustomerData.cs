@@ -16,6 +16,7 @@
 
         public IEnumerable<Customer> GetAll()
         {
+            // Expensive! TODO: Change to a more efficient implementation. (IQueryable?)
             return _context.Customers.ToList();
         }
 

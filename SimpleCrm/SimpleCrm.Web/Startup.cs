@@ -1,16 +1,27 @@
+using Microsoft.EntityFrameworkCore;
+using SimpleCrm.SqlDbServices;
+
 namespace SimpleCrm.Web
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
             services.AddSingleton<IGreeter, ConfigurationGreeter>();
-            services.AddScoped<ICustomerData, InMemoryCustomerData>();
+            services.AddScoped<ICustomerData, SqlCustomerData>();
+            services.AddDbContext<SimpleCrmDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("SimpleCrmConnection"));
+            });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IGreeter greeter)
         {
             if (env.IsDevelopment())
