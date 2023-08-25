@@ -27,11 +27,10 @@
             return _customers;
         }
 
-        public Customer Save(Customer customer)
+        public void Save(Customer customer)
         {
             customer.Id = _customers.Max(x => x.Id) + 1;
             _customers.Add(customer);
-            return customer;
         }
     }
 }

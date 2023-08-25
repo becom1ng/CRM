@@ -6,12 +6,12 @@ namespace SimpleCrm.Web.Models.Home
     {
         public int Id { get; set; }
         [Display(Name = "First Name")]
+        [MaxLength(50)]
         [Required()]
-        [MinLength(1), MaxLength(40)]
         public string FirstName { get; set; }
         [Display(Name = "Last Name")]
+        [MinLength(1), MaxLength(50)]
         [Required()]
-        [MinLength(1), MaxLength(60)]
         public string LastName { get; set; }
         [Display(Name = "Phone Number")]
         [Required()]
