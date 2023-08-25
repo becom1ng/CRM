@@ -41,6 +41,7 @@ namespace SimpleCrm.Web.Controllers
         }
 
         [HttpPost()]
+        [ValidateAntiForgeryToken()] // <- always include with a post action
         public IActionResult Create(CustomerEditViewModel model)
         {
             if (ModelState.IsValid)

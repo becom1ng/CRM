@@ -4,6 +4,6 @@
     {
         IEnumerable<Customer> GetAll();
         Customer Get(int id);
-        Customer Save(Customer customer);
+        void Save(Customer customer);
     }
 }

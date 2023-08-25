@@ -3,9 +3,11 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SimpleCrm.SqlDbServices\SimpleCrm.SqlDbServices.csproj" />
     <ProjectReference Include="..\SimpleCrm\SimpleCrm.csproj" />
   </ItemGroup>
 
