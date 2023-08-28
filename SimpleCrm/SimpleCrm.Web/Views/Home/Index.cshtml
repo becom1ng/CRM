@@ -1,9 +1,11 @@
 ﻿@using SimpleCrm.Web.Models.Home;
 @model HomePageViewModel
+@{
+    ViewBag.Title = "Customers";
+    Layout = "_Layout";
+}
 
-<title>Simple CRM</title>
 <h1>Customers</h1>
-<p>@Model.CurrentMessage</p>
 <table>
     @foreach (var customer in Model.Customers)
     {
@@ -19,6 +21,13 @@
                 <td>@customer.PhoneNumber</td>
             </tr>
     }
+    <tr>
+        <td>@Html.ActionLink("Create", nameof(SimpleCrm.Web.Controllers.HomeController.Create))</td>
+    </tr>
 </table>
-<br />
-@Html.ActionLink("Create", nameof(SimpleCrm.Web.Controllers.HomeController.Create))
+
+@section footer {
+    <h3>
+        @Model.CurrentMessage
+    </h3>
+}
