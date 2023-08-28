@@ -1,6 +1,7 @@
 ﻿@model SimpleCrm.Customer
-
-<title>Customer Details</title>
+@{
+    ViewBag.Title = @Model.LastName;
+}
 
 <h1>@Model.FirstName @Model.LastName</h1>
 
