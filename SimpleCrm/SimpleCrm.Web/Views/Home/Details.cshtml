@@ -4,7 +4,9 @@
 }
 
 <h1>@Model.FirstName @Model.LastName</h1>
-
 <div>
-    @Html.ActionLink("Back", nameof(HomeController.Index))
+    <a asp-action="Edit" asp-route-id=@Model.Id>Edit</a>
+</div>
+<div>
+    <a asp-action="Index">Back</a>
 </div>

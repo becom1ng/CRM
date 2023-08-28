@@ -26,12 +26,47 @@ namespace SimpleCrm.Web.Controllers
 
         public IActionResult Details(int id)
         {
-            Customer cust = _customerData.Get(id);
-            if (cust == null )
-            {
-                return RedirectToAction(nameof(Index));
-            }
+            var cust = _customerData.Get(id);
+            if (cust == null) { return RedirectToAction(nameof(Index)); }
             return View(cust);
+        }
+
+        [HttpGet()]
+        public IActionResult Edit(int id)
+        {
+            var cust = _customerData.Get(id);
+            if (cust == null) { return RedirectToAction(nameof(Index)); }
+            var model = new CustomerEditViewModel
+            {
+                Id = cust.Id,
+                FirstName = cust.FirstName,
+                LastName = cust.LastName,
+                PhoneNumber = cust.PhoneNumber,
+                OptInNewsletter = cust.OptInNewsletter,
+                Type = cust.Type,
+            };
+            return View(model);
+        }
+
+        [HttpPost()]
+        [ValidateAntiForgeryToken()] // <- always include with a post action
+        public IActionResult Edit(CustomerEditViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var cust = _customerData.Get(model.Id);
+                {
+                    cust.Id = model.Id;
+                    cust.FirstName = model.FirstName;
+                    cust.LastName = model.LastName;
+                    cust.PhoneNumber = model.PhoneNumber;
+                    cust.OptInNewsletter = model.OptInNewsletter;
+                    cust.Type = model.Type;
+                };
+                _customerData.Update(cust);
+                return RedirectToAction(nameof(Edit), new { id = model.Id });
+            };
+            return View(model);
         }
 
         [HttpGet()]
@@ -54,7 +89,7 @@ namespace SimpleCrm.Web.Controllers
                     OptInNewsletter = model.OptInNewsletter,
                     Type = model.Type
                 };
-                _customerData.Save(customer);
+                _customerData.Add(customer);
                 return RedirectToAction(nameof(Details), new { id = customer.Id });
             };
             return View();

@@ -20,10 +20,16 @@
             return _context.Customers.ToList();
         }
 
-        public void Save(Customer customer)
+        public void Add(Customer customer)
         {
             //customer.Id = _customers.Max(x => x.Id) + 1; // DB will auto assign customer.Id
             _context.Customers.Add(customer);
+            _context.SaveChanges();
+        }
+
+        public void Update(Customer customer)
+        {
+            //_context.Customers.Update(customer);
             _context.SaveChanges();
         }
     }
