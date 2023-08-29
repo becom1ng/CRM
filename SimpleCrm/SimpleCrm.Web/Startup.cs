@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SimpleCrm.SqlDbServices;
 
@@ -17,9 +18,11 @@ namespace SimpleCrm.Web
             services.AddSingleton<IGreeter, ConfigurationGreeter>();
             services.AddScoped<ICustomerData, SqlCustomerData>();
             services.AddDbContext<SimpleCrmDbContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("SimpleCrmConnection"));
-            });
+            { options.UseSqlServer(Configuration.GetConnectionString("SimpleCrmConnection")); });
+            services.AddDbContext<CrmIdentityDbContext>(options =>
+            { options.UseSqlServer(Configuration.GetConnectionString("SimpleCrmConnection")); });
+            services.AddIdentity<CrmUser, IdentityRole>()
+                .AddEntityFrameworkStores<CrmIdentityDbContext>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IGreeter greeter)
@@ -44,15 +47,14 @@ namespace SimpleCrm.Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     "default",
                     "{controller=Home}/{action=Index}/{id?}"
-                    );
-                endpoints.MapControllerRoute(
-                    "Create",
-                    "{controller=Home}/{action=Create}"
                     );
             });
 
