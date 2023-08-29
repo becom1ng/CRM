@@ -1,0 +1,25 @@
+﻿@model Customer
+
+<style>
+    span {
+        margin: 0px 6px 6px 0px;
+    }
+    div {
+        margin: 10px 0px 0px 0px;
+    }
+</style>
+
+<section>
+    <div>
+        <h3>@Model.FirstName @Model.LastName</h3>
+    </div>
+    <div>
+        <span>Type: @Model.Type</span>
+        <span>Phone: @Model.PhoneNumber</span>
+        <span>Newsletter: @Model.OptInNewsletter</span>
+    </div>
+    <div>
+        <a asp-action="Details" asp-route-id=@Model.Id>Details</a>
+        <a asp-action="Edit" asp-route-id=@Model.Id>Edit</a>
+    </div>
+</section>
