@@ -10,7 +10,7 @@
         @RenderBody()
     </div>
     <footer>
-        @RenderSection("footer", false)
+        @await Component.InvokeAsync("Greeting")
         &copy; @DateTime.Now.Year Ryan Lavery
     </footer>
 </body>
