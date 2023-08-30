@@ -31,7 +31,7 @@ namespace SimpleCrm.Web.Controllers
             return View(cust);
         }
 
-        [HttpGet()]
+        [HttpGet]
         public IActionResult Edit(int id)
         {
             var cust = _customerData.Get(id);
@@ -48,8 +48,7 @@ namespace SimpleCrm.Web.Controllers
             return View(model);
         }
 
-        [HttpPost()]
-        [ValidateAntiForgeryToken()] // <- always include with a post action
+        [HttpPost, ValidateAntiForgeryToken] // <- always include with a post action
         public IActionResult Edit(CustomerEditViewModel model)
         {
             if (ModelState.IsValid)
@@ -69,14 +68,13 @@ namespace SimpleCrm.Web.Controllers
             return View(model);
         }
 
-        [HttpGet()]
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        [HttpPost()]
-        [ValidateAntiForgeryToken()] // <- always include with a post action
+        [HttpPost, ValidateAntiForgeryToken] // <- always include with a post action
         public IActionResult Create(CustomerEditViewModel model)
         {
             if (ModelState.IsValid)
