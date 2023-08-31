@@ -16,7 +16,7 @@
     "outputFileName": "wwwroot/css/vendor.min.css",
     // An array of relative input file paths. Globbing patterns supported
     "inputFiles": [
-      "node_modules/material-design-lite/dist/material.amber-blue.min.css"
+      "node_modules/material-design-lite/dist/material.teal-pink.min.css"
     ],
     "minify": {
       "enabled": false /*already minified*/
