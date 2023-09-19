@@ -1,0 +1,68 @@
+@use '@angular/material' as mat;
+@import '@angular/material/theming';
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$simplecrm-cli-primary: mat.define-palette(mat.$indigo-palette, 400, 200, 600);
+$simplecrm-cli-accent: mat.define-palette(mat.$amber-palette, 600, 400, 700);
+
+// The warn palette is optional (defaults to red).
+$simplecrm-cli-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$simplecrm-normal-theme: mat.define-light-theme((color: (primary: $simplecrm-cli-primary,
+accent: $simplecrm-cli-accent,
+warn: $simplecrm-cli-warn,
+)));
+
+$simplecrm-cli-primary0: mat.get-color-from-palette($simplecrm-cli-primary, 100);
+$simplecrm-cli-primary1: mat.get-color-from-palette($simplecrm-cli-primary, 200);
+$simplecrm-cli-primary2: mat.get-color-from-palette($simplecrm-cli-primary, 300);
+$simplecrm-cli-primary3: mat.get-color-from-palette($simplecrm-cli-primary, 400);
+$simplecrm-cli-primary4: mat.get-color-from-palette($simplecrm-cli-primary, 500);
+$simplecrm-cli-primary5: mat.get-color-from-palette($simplecrm-cli-primary, 600);
+$simplecrm-cli-primary0-contrast: mat.get-contrast-color-from-palette($simplecrm-cli-primary, 100);
+$simplecrm-cli-primary1-contrast: mat.get-contrast-color-from-palette($simplecrm-cli-primary, 200);
+$simplecrm-cli-primary2-contrast: mat.get-contrast-color-from-palette($simplecrm-cli-primary, 300);
+$simplecrm-cli-primary3-contrast: mat.get-contrast-color-from-palette($simplecrm-cli-primary, 400);
+$simplecrm-cli-primary4-contrast: mat.get-contrast-color-from-palette($simplecrm-cli-primary, 500);
+$simplecrm-cli-primary5-contrast: mat.get-contrast-color-from-palette($simplecrm-cli-primary, 600);
+
+$simplecrm-cli-accent0: mat.get-color-from-palette($simplecrm-cli-accent, 100);
+$simplecrm-cli-accent1: mat.get-color-from-palette($simplecrm-cli-accent, 200);
+$simplecrm-cli-accent2: mat.get-color-from-palette($simplecrm-cli-accent, 300);
+$simplecrm-cli-accent3: mat.get-color-from-palette($simplecrm-cli-accent, 400);
+$simplecrm-cli-accent4: mat.get-color-from-palette($simplecrm-cli-accent, 500);
+$simplecrm-cli-accent5: mat.get-color-from-palette($simplecrm-cli-accent, 600);
+$simplecrm-cli-accent0-contrast: mat.get-contrast-color-from-palette($simplecrm-cli-accent, 100);
+$simplecrm-cli-accent1-contrast: mat.get-contrast-color-from-palette($simplecrm-cli-accent, 200);
+$simplecrm-cli-accent2-contrast: mat.get-contrast-color-from-palette($simplecrm-cli-accent, 300);
+$simplecrm-cli-accent3-contrast: mat.get-contrast-color-from-palette($simplecrm-cli-accent, 400);
+$simplecrm-cli-accent4-contrast: mat.get-contrast-color-from-palette($simplecrm-cli-accent, 500);
+$simplecrm-cli-accent5-contrast: mat.get-contrast-color-from-palette($simplecrm-cli-accent, 600);
+
+$simplecrm-cli-warn1: mat.get-color-from-palette($simplecrm-cli-warn, 200);
+$simplecrm-cli-warn2: mat.get-color-from-palette($simplecrm-cli-warn, 300);
+$simplecrm-cli-warn3: mat.get-color-from-palette($simplecrm-cli-warn, 400);
+$simplecrm-cli-warn4: mat.get-color-from-palette($simplecrm-cli-warn, 500);
+$simplecrm-cli-warn5: mat.get-color-from-palette($simplecrm-cli-warn, 600);
+$simplecrm-cli-warn1-contrast: mat.get-contrast-color-from-palette($simplecrm-cli-warn, 200);
+$simplecrm-cli-warn2-contrast: mat.get-contrast-color-from-palette($simplecrm-cli-warn, 300);
+$simplecrm-cli-warn3-contrast: mat.get-contrast-color-from-palette($simplecrm-cli-warn, 400);
+$simplecrm-cli-warn4-contrast: mat.get-contrast-color-from-palette($simplecrm-cli-warn, 500);
+$simplecrm-cli-warn5-contrast: mat.get-contrast-color-from-palette($simplecrm-cli-warn, 600);
+
+// From the node_modules\@angular\materia\core\theming\_palette.scss folder
+// we can use these vars...  ^^ check file for more
+// $dark-primary-text: rgba(black, 0.87);
+// $dark-secondary-text: rgba(black, 0.54);
+// $dark-disabled-text: rgba(black, 0.38);
+// $dark-dividers: rgba(black, 0.12);
+// $dark-focused: rgba(black, 0.12);
+// $light-primary-text: white;
+// $light-secondary-text: rgba(white, 0.7);
+// $light-disabled-text: rgba(white, 0.5);
+// $light-dividers: rgba(white, 0.12);
+// $light-focused: rgba(white, 0.12);
