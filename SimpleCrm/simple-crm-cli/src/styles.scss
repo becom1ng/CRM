@@ -44,3 +44,8 @@ $simple-crm-cli-warn: mat.define-palette(mat.$red-palette);
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.content-container {
+   padding-top: 1em;
+   margin: auto;
+   max-width: 980px;
+}
