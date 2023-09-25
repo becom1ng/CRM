@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+
 import { CustomerRoutingModule } from './customer-routing.module';
 import { CustomerListPageComponent } from './customer-list-page/customer-list-page.component';
-import {MatTableModule} from '@angular/material/table';
-import {MatCardModule} from '@angular/material/card';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatSortModule} from '@angular/material/sort';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,8 @@ import {MatSortModule} from '@angular/material/sort';
     MatTableModule,
     MatCardModule,
     MatPaginatorModule,
-    MatSortModule
-  ]
+    MatSortModule,
+    HttpClientModule
+  ],
 })
 export class CustomerModule { }
