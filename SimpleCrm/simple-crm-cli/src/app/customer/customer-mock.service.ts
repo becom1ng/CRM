@@ -10,6 +10,7 @@ export class CustomerMockService extends CustomerService {
   
   constructor(http: HttpClient) {
     super(http);
+    console.warn('Warning: You are using the CustomerMockService, not intended for production use.');
 
     const localCustomers = localStorage.getItem('customers');
     if (localCustomers) {

@@ -9,6 +9,8 @@ import { CustomerRoutingModule } from './customer-routing.module';
 import { CustomerListPageComponent } from './customer-list-page/customer-list-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CustomerService } from './customer.service';
+import { CustomerMockService } from './customer-mock.service';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,7 @@ import { CustomerService } from './customer.service';
     HttpClientModule
   ],
   providers: [
-    CustomerService
+    ...environment.providers
   ]
 })
 export class CustomerModule { }
