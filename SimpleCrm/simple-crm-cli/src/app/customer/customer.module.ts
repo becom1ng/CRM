@@ -8,6 +8,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { CustomerRoutingModule } from './customer-routing.module';
 import { CustomerListPageComponent } from './customer-list-page/customer-list-page.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CustomerService } from './customer.service';
 
 @NgModule({
   declarations: [
@@ -22,5 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatSortModule,
     HttpClientModule
   ],
+  providers: [
+    CustomerService
+  ]
 })
 export class CustomerModule { }

@@ -1,6 +1,6 @@
 <div class="content-container">
     <mat-card>
-        <table mat-table [dataSource]="dataSource" matSort>
+        <table mat-table [dataSource]="customers$" matSort>
             <!-- Future sorting fix: column's name must match the data property name that the column displays. -->
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
