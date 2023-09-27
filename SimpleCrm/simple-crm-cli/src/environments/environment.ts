@@ -1,9 +1,8 @@
-import { CustomerMockService } from "src/app/customer/customer-mock.service";
 import { CustomerService } from "src/app/customer/customer.service";
 
 export const environment = {
-    production: false,
+    production: true,
     providers: [
-        { provide: CustomerService, useClass: CustomerMockService }
-    ],
+            { provide: CustomerService, useClass: CustomerService }
+        ],
 };
