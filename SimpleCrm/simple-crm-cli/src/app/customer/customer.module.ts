@@ -11,6 +11,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { CustomerService } from './customer.service';
 import { CustomerMockService } from './customer-mock.service';
 import { environment } from 'src/environments/environment';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -19,11 +21,13 @@ import { environment } from 'src/environments/environment';
   imports: [
     CommonModule,
     CustomerRoutingModule,
+    HttpClientModule,
     MatTableModule,
     MatCardModule,
     MatPaginatorModule,
     MatSortModule,
-    HttpClientModule
+    MatIconModule,
+    MatButtonModule
   ],
   providers: [
     ...environment.providers

@@ -1,5 +1,14 @@
 <div class="content-container">
     <mat-card>
+        <mat-card-header>
+            <mat-card-title fxLayout>
+               <span>Customers</span>
+               <span fxFlex=""> </span>
+               <button class="addButton" mat-mini-fab fxflex="nogrow">
+                    <mat-icon aria-label="Add Customer">add</mat-icon>
+               </button>
+            </mat-card-title>
+        </mat-card-header>
         <table mat-table [dataSource]="customers$" matSort>
             <!-- Future sorting fix: column's name must match the data property name that the column displays. -->
             <ng-container matColumnDef="name">
