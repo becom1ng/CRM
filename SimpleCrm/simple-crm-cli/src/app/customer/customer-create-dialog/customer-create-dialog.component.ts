@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Customer } from '../customer.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'crm-customer-create-dialog',
@@ -9,13 +10,27 @@ import { Customer } from '../customer.model';
 })
 export class CustomerCreateDialogComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<CustomerCreateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Customer | null
-  ) {}
+  detailForm: FormGroup;
 
-  // TODO: SAVE, get form data and return to parent component
+  constructor(
+    private fb: FormBuilder,
+    public dialogRef: MatDialogRef<CustomerCreateDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Customer | null
+  ) { 
+    // the group method takes an JSON object like the following
+    this.detailForm = this.fb.group({
+       firstName: ['', Validators.required], // target form field name is the property name
+       lastName: ['', Validators.required],
+       phoneNumber: [''],
+       emailAddress: ['', [Validators.required, Validators.email]],
+       preferredContactMethod: ['email'] // set initial value
+    });
+    if (this.data) { this.detailForm.patchValue(this.data); } // the patchValue function updates the form input values.
+  }
+
   save() {
-    const customer = {};
+    if (!this.detailForm.valid) { return }
+    const customer = { ...this.data, ...this.detailForm.value };
     this.dialogRef.close(customer);  // pass in the data to give back to the parent, or nothing
   }
 
