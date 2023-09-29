@@ -17,11 +17,13 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 
 @NgModule({
   declarations: [
     CustomerListPageComponent,
-    CustomerCreateDialogComponent
+    CustomerCreateDialogComponent,
+    CustomerDetailComponent
   ],
   imports: [
     CommonModule,
