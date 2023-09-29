@@ -23,7 +23,7 @@ export class CustomerCreateDialogComponent implements OnInit {
        lastName: ['', Validators.required],
        phoneNumber: [''],
        emailAddress: ['', [Validators.required, Validators.email]],
-       preferredContactMethod: ['email'] // set initial value
+       preferredContactMethod: ['', [Validators.required]] // set initial value
     });
     if (this.data) { this.detailForm.patchValue(this.data); } // the patchValue function updates the form input values.
   }

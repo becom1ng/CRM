@@ -23,7 +23,7 @@ export class CustomerListPageComponent implements OnInit {
   
   addCustomer(): void {
     const dialogRef = this.dialog.open(CustomerCreateDialogComponent, {
-      width: '250px',
+      width: '260px',
       data: null,
     });
   }};
