@@ -23,14 +23,14 @@ export class CustomerCreateDialogComponent implements OnInit {
        lastName: ['', Validators.required],
        phoneNumber: [''],
        emailAddress: ['', [Validators.required, Validators.email]],
-       preferredContactMethod: ['', [Validators.required]] // set initial value
+       preferredContactMethod: ['', [Validators.required]]
     });
     if (this.data) { this.detailForm.patchValue(this.data); } // the patchValue function updates the form input values.
   }
 
   save() {
-    if (!this.detailForm.valid) { return }
-    const customer = { ...this.data, ...this.detailForm.value };
+    if (!this.detailForm.valid) { return } // do nothing if form is not valid
+    const customer = { ...this.data, ...this.detailForm.value }; // merge values from form
     this.dialogRef.close(customer);  // pass in the data to give back to the parent, or nothing
   }
 
