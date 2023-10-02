@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CustomerService } from '../customer.service';
 import { Customer } from '../customer.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'crm-customer-detail',
@@ -12,10 +13,24 @@ export class CustomerDetailComponent implements OnInit {
 
   customerId!: number;
   customer!: Customer;
+  detailForm!: FormGroup;
   
   constructor(
     private route: ActivatedRoute,
-    private customerService: CustomerService) {}
+    private customerService: CustomerService,
+    private fb: FormBuilder) {
+      this.createForm();
+    }
+
+  public createForm(): void {
+    this.detailForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      phoneNumber: [''],
+      emailAddress: ['', [Validators.required, Validators.email]],
+      preferredContactMethod: ['', [Validators.required]]
+    });
+  }
 
   ngOnInit(): void {
      // convert id route param to number with the +

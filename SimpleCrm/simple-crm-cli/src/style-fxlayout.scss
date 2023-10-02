@@ -199,6 +199,18 @@
    max-width: 10%;
  }
 
+ *[FxLayoutAlign]>*[fxFlex='48'],
+ *[FxLayout]>*[fxFlex='48'] {
+   flex: 1 1 48%;
+   max-width: 48%;
+ }
+
+ *[FxLayoutAlign]>*[fxFlex='50'],
+ *[FxLayout]>*[fxFlex='50'] {
+   flex: 1 1 50%;
+   max-width: 50%;
+ }
+
  // repeat up to 100%, copy one of the above lines and make one for 11% to 100%.  Or just add the ones you'll need.
 
  // this portion handles giving gaps between items that don't take up a portion of the percentage width
