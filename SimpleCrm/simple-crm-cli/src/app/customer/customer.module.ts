@@ -41,7 +41,7 @@ import { CustomerDetailComponent } from './customer-detail/customer-detail.compo
     MatSelectModule
   ],
   providers: [
-    ...environment.providers
+    environment.production ? CustomerService : CustomerMockService
   ]
 })
 export class CustomerModule { }
