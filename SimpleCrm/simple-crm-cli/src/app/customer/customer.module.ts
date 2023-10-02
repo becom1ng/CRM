@@ -40,8 +40,9 @@ import { CustomerDetailComponent } from './customer-detail/customer-detail.compo
     MatInputModule,
     MatSelectModule
   ],
-  providers: [
-    environment.production ? CustomerService : CustomerMockService
-  ]
+  providers: [{
+    provide: CustomerService,
+    useClass: environment.production ? CustomerService : CustomerMockService,
+  }]
 })
 export class CustomerModule { }
