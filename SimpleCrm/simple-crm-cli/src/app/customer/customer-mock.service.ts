@@ -41,12 +41,16 @@ export class CustomerMockService extends CustomerService {
     // convert to observable
     return of(items);
   }
+  
+  override get(customerId: number): Observable<Customer | undefined> {
+    const item = this.customers.find(x => x.customerId === customerId);
+    return of(item);
+  }
 
   override insert(customer: Customer): Observable<Customer> {
     customer.customerId = Math.max(...this.customers.map(x => x.customerId)) + 1;
     this.customers = [...this.customers, customer];
     localStorage.setItem('customers', JSON.stringify(this.customers));
-    // convert to observable
     return of(customer);
   }
 
@@ -58,7 +62,7 @@ export class CustomerMockService extends CustomerService {
       this.customers = [...this.customers, customer];
     }
     localStorage.setItem('customers', JSON.stringify(this.customers));
-    // convert to observable
     return of(customer);
   }
+
 }

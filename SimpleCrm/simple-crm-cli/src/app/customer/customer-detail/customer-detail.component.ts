@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CustomerService } from '../customer.service';
+import { Customer } from '../customer.model';
 
 @Component({
   selector: 'crm-customer-detail',
@@ -9,10 +11,24 @@ import { ActivatedRoute } from '@angular/router';
 export class CustomerDetailComponent implements OnInit {
 
   customerId!: number;
-
-  constructor(private route: ActivatedRoute) {}
+  customer!: Customer;
+  
+  constructor(
+    private route: ActivatedRoute,
+    private customerService: CustomerService) {}
 
   ngOnInit(): void {
-    this.customerId = this.route.snapshot.params['id'];
+     // convert id route param to number with the +
+     this.customerId = +this.route.snapshot.params['id']; 
+  
+     this.customerService //injected
+        .get(this.customerId)
+        .subscribe(cust => {  // like listening to a JavaScript fetch call to return
+           if (cust) {
+             this.customer = cust;
+           }
+        });
   }
+  // THIS CODE IS NOT IDEAL!!  It works. And lots of people write code like this.  
+  //  We will convert this to be better using RxJs and Observables in the advanced course.
 }
