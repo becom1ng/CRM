@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CustomerService } from '../customer.service';
 import { Customer } from '../customer.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'crm-customer-detail',
@@ -18,7 +19,8 @@ export class CustomerDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private customerService: CustomerService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar) {
       this.createForm();
     }
 
@@ -40,10 +42,24 @@ export class CustomerDetailComponent implements OnInit {
         .get(this.customerId)
         .subscribe(cust => {  // like listening to a JavaScript fetch call to return
            if (cust) {
+             this.detailForm.patchValue(cust);
              this.customer = cust;
            }
         });
   }
   // THIS CODE IS NOT IDEAL!!  It works. And lots of people write code like this.  
   //  We will convert this to be better using RxJs and Observables in the advanced course.
+
+  public save() {
+    if (!this.detailForm.valid) { return; }
+    const customer = { ...this.customer, ...this.detailForm.value };
+    this.customerService.update(customer).subscribe({
+        next: (result) => { 
+          this.snackBar.open('Customer saved', 'OK');
+        },
+        error: (err) => {
+          this.snackBar.open('An error occurred: ' + err, 'OK');
+        }
+    });
+  }
 }
