@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class CustomerListPageComponent implements OnInit {
   customers$: Observable<Customer[]>;
-  displayColumns = ['name', 'phoneNumber', 'emailAddress', 'status', 'details'];
+  displayColumns = ['name', 'phoneNumber', 'emailAddress', 'status', 'lastContactDate', 'details'];
   // the above column names must match the matColumnDef names in the html
   
   constructor(private customerService: CustomerService,
