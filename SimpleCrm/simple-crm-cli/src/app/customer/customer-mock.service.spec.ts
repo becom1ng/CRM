@@ -2,8 +2,6 @@ import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { CustomerMockService } from './customer-mock.service';
-import { of } from 'rxjs';
-import { Customer } from './customer.model';
 
 describe('CustomerMockService', () => {
   let injector: TestBed;
