@@ -39,12 +39,5 @@
             _customers.Remove(saved);
             _customers.Add(customer);
         }
-
-        public void Commit()
-        {
-            // Unused
-            throw new NotImplementedException();
-            // TODO: Update the InMemoryCustomerData to use the updated contract. How will it handle transactions??
-        }
     }
 }
