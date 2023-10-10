@@ -39,5 +39,11 @@
             _customers.Remove(saved);
             _customers.Add(customer);
         }
+
+        public void Commit()
+        {
+            // Unused?! Add and update handle all changes, there is no dbcontext requiring a savechanges.
+            return;
+        }
     }
 }

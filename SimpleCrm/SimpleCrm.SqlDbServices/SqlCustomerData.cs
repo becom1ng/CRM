@@ -16,7 +16,7 @@
 
         public IEnumerable<Customer> GetAll()
         {
-            // Expensive! TODO: Change to a more efficient implementation. (IQueryable?)
+            // Expensive! TODO: Change to a more efficient implementation. (Use IQueryable?)
             return _context.Customers.ToList();
         }
 
@@ -24,12 +24,15 @@
         {
             //customer.Id = _customers.Max(x => x.Id) + 1; // DB will auto assign customer.Id
             _context.Customers.Add(customer);
-            _context.SaveChanges();
         }
 
         public void Update(Customer customer)
         {
-            //_context.Customers.Update(customer);
+            _context.Customers.Update(customer);
+        }
+
+        public void Commit()
+        {
             _context.SaveChanges();
         }
     }
