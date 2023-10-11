@@ -27,6 +27,15 @@
             return _customers;
         }
 
+        public List<Customer> GetByStatus(CustomerStatus status, int pageIndex, int take, string orderBy)
+        {
+            return _customers.Where(x => x.Status == status) // get only requested status
+                .Skip(pageIndex * take) // bypasses a specified number of elements; take = page size
+                .Take(take) // get only this many items
+                .ToList(); // convert IEnumerable from prior methods to list
+                // TODO : orderBy
+        }
+
         public void Add(Customer customer)
         {
             customer.Id = _customers.Max(x => x.Id) + 1;
@@ -38,6 +47,11 @@
             var saved = _customers.FirstOrDefault(x => x.Id == customer.Id);
             _customers.Remove(saved);
             _customers.Add(customer);
+        }
+
+        public void Delete(int id)
+        {
+            _customers.Remove(_customers[id]);
         }
 
         public void Commit()
