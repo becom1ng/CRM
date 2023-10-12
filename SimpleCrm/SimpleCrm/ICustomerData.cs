@@ -16,7 +16,8 @@
 
         void Add(Customer customer);
         void Update(Customer customer);
-        void Delete(int customerId);
+        void Delete(Customer item);
+        void Delete(int id);
         /// <summary>
         /// Saves changes to new or modified customers.
         /// </summary>

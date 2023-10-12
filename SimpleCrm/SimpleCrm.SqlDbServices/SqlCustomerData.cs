@@ -1,4 +1,10 @@
-﻿namespace SimpleCrm.SqlDbServices
+﻿using System;
+using System.Linq.Dynamic.Core;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Runtime.Intrinsics.X86;
+using System.Xml.Linq;
+
+namespace SimpleCrm.SqlDbServices
 {
     public class SqlCustomerData : ICustomerData
     {
@@ -9,26 +15,62 @@
             _context = context;
         }
 
-        public Customer Get(int id)
-        {
-            return _context.Customers.FirstOrDefault(x => x.Id == id);
-        }
-
         public IEnumerable<Customer> GetAll()
         {
             // Expensive! TODO: Change to a more efficient implementation. (Use IQueryable?)
             return _context.Customers.ToList();
         }
+        
+        public Customer Get(int id)
+        {
+            return _context.Customers.FirstOrDefault(x => x.Id == id);
+        }
+
+        public List<Customer> GetByStatus(CustomerStatus status, int pageIndex, int take, string orderBy)
+        {
+            var sortFields = new string[] { "FIRSTNAME", "LASTNAME", "TYPE", "STATUS", "LASTCONTACTDATE" };
+            var sortDirection = new string[] { "ASC", "DESC" };
+
+            var clauses = (orderBy ??= "").Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+            foreach (var clause in clauses)
+            {
+                var items = clause.ToUpper().Split(' ');
+
+                if (items.Length > 2) throw new ArgumentException("Invalid search! ", items.ToString()); // catch invalid length
+                if (!sortFields.Contains(items[0])) throw new ArgumentException("Invalid search field. ", items[0].ToString());
+                if (items.Length == 2 && !sortFields.Contains(items[1])) throw new ArgumentException("Invalid sort direction. ", items[1].ToString());
+            }
+
+            return _context.Customers
+                .Where(x => x.Status == status)
+                .OrderBy(orderBy)
+                .Skip(pageIndex * take)
+                .Take(take)
+                .ToList();
+        }
 
         public void Add(Customer customer)
         {
-            //customer.Id = _customers.Max(x => x.Id) + 1; // DB will auto assign customer.Id
-            _context.Customers.Add(customer);
+            _context.Customers.Add(customer); // DB will auto assign customer.Id
         }
 
         public void Update(Customer customer)
         {
+            //No need since changes are tracked by Entity Framework
             _context.Customers.Update(customer);
+        }
+
+        public void Delete(Customer item)
+        {
+            _context.Remove(item); // Hard delete
+        }
+
+        public void Delete(int id) // unused, but added for future flexibility/support
+        {
+            var cust = new Customer { Id = id };
+            _context.Attach(cust);
+            _context.Remove(cust);
         }
 
         public void Commit()

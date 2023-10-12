@@ -49,6 +49,11 @@
             _customers.Add(customer);
         }
 
+        public void Delete(Customer item)
+        {
+            _customers.Remove(item);
+        }
+
         public void Delete(int id)
         {
             _customers.Remove(_customers[id]);
