@@ -27,9 +27,9 @@
             return _customers;
         }
 
-        public List<Customer> GetByStatus(CustomerStatus status, int pageIndex, int take, string orderBy)
+        public List<Customer> GetAll(int pageIndex, int take, string orderBy)
         {
-            return _customers.Where(x => x.Status == status) // get only requested status
+            return _customers
                 .Skip(pageIndex * take) // bypasses a specified number of elements; take = page size
                 .Take(take) // get only this many items
                 .ToList(); // convert IEnumerable from prior methods to list

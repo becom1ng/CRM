@@ -17,12 +17,7 @@ namespace SimpleCrm.SqlDbServices
             return _context.Customers.ToList();
         }
         
-        public Customer Get(int id)
-        {
-            return _context.Customers.FirstOrDefault(x => x.Id == id);
-        }
-
-        public List<Customer> GetByStatus(CustomerStatus status, int pageIndex, int take, string orderBy)
+        public List<Customer> GetAll(int pageIndex, int take, string orderBy)
         {
             var sortFields = new string[] { "FIRSTNAME", "LASTNAME", "TYPE", "STATUS", "LASTCONTACTDATE" };
             var sortDirection = new string[] { "ASC", "DESC" };
@@ -39,12 +34,17 @@ namespace SimpleCrm.SqlDbServices
             }
 
             return _context.Customers
-                .Where(x => x.Status == status)
                 .OrderBy(orderBy)
                 .Skip(pageIndex * take)
                 .Take(take)
                 .ToList();
         }
+
+        public Customer Get(int id)
+        {
+            return _context.Customers.FirstOrDefault(x => x.Id == id);
+        }
+
 
         public void Add(Customer customer)
         {
@@ -73,5 +73,6 @@ namespace SimpleCrm.SqlDbServices
         {
             _context.SaveChanges();
         }
+
     }
 }
