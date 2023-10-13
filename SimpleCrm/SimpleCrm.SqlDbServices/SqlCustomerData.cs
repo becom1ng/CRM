@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq.Dynamic.Core;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using System.Runtime.Intrinsics.X86;
-using System.Xml.Linq;
+﻿using System.Linq.Dynamic.Core;
 
 namespace SimpleCrm.SqlDbServices
 {
