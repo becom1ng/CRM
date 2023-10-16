@@ -1,4 +1,5 @@
 ﻿using System.Linq.Dynamic.Core;
+using System.Runtime.CompilerServices;
 
 namespace SimpleCrm.SqlDbServices
 {
@@ -32,7 +33,7 @@ namespace SimpleCrm.SqlDbServices
                 if (!sortFields.Contains(items[0])) throw new ArgumentException("Invalid search field. ", items[0].ToString());
                 if (items.Length == 2 && !sortFields.Contains(items[1])) throw new ArgumentException("Invalid sort direction. ", items[1].ToString());
             }
-
+            if (String.IsNullOrWhiteSpace(orderBy)) { orderBy = "LastName ASC"; }
             return _context.Customers
                 .OrderBy(orderBy)
                 .Skip(pageIndex * take)

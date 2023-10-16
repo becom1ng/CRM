@@ -22,8 +22,8 @@ namespace SimpleCrm.WebApi.ApiControllers
         public IActionResult GetAll()
         {
             var customers = _customerData.GetAll(0, 50, "");
-            var models = customers.Select(c => new CustomerDisplayViewModel
-            {
+            var models = customers.Select(c => new CustomerDisplayViewModel(c));
+/*            {
                 CustomerId = c.Id,
                 FirstName = c.FirstName,
                 LastName = c.LastName,
@@ -32,7 +32,7 @@ namespace SimpleCrm.WebApi.ApiControllers
                 Status = Enum.GetName(typeof(CustomerStatus), c.Status),
                 PreferredContactMethod = Enum.GetName(typeof(InteractionMethod), c.PreferredContactMethod),
                 LastContactDate = c.LastContactDate.Year > 1 ? c.LastContactDate.ToString("s", CultureInfo.InstalledUICulture) : ""
-            });
+            });*/
             return Ok(models); //200
         }
         /// <summary>
