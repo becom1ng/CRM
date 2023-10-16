@@ -11,7 +11,7 @@ namespace SimpleCrm.WebApi.Models
         [Required()]
         public string LastName { get; set; }
         [MinLength(7), MaxLength(12), Phone]
-        public string? PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         [MaxLength(100), EmailAddress]
         [Required()]
         public string EmailAddress { get; set; }

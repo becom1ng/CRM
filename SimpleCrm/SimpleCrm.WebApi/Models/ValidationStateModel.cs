@@ -4,8 +4,8 @@ namespace SimpleCrm.WebApi.Models
 {
     public class ValidationStateModel
     {
-        public string? Messages { get; set; }
-        public List<ValidationError>? Errors { get; set; }
+        public string Messages { get; set; }
+        public List<ValidationError> Errors { get; set; }
 
         public ValidationStateModel() { }
         public ValidationStateModel(string error)
