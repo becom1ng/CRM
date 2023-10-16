@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SimpleCrm.WebApi.Models;
-using System.Globalization;
+using SimpleCrm.WebApi.Validation;
 
 namespace SimpleCrm.WebApi.ApiControllers
 {
@@ -23,16 +23,6 @@ namespace SimpleCrm.WebApi.ApiControllers
         {
             var customers = _customerData.GetAll(0, 50, "");
             var models = customers.Select(c => new CustomerDisplayViewModel(c));
-/*            {
-                CustomerId = c.Id,
-                FirstName = c.FirstName,
-                LastName = c.LastName,
-                EmailAddress = c.EmailAddress,
-                PhoneNumber = c.PhoneNumber,
-                Status = Enum.GetName(typeof(CustomerStatus), c.Status),
-                PreferredContactMethod = Enum.GetName(typeof(InteractionMethod), c.PreferredContactMethod),
-                LastContactDate = c.LastContactDate.Year > 1 ? c.LastContactDate.ToString("s", CultureInfo.InstalledUICulture) : ""
-            });*/
             return Ok(models); //200
         }
         /// <summary>
@@ -62,7 +52,7 @@ namespace SimpleCrm.WebApi.ApiControllers
             if (model == null) return BadRequest(); // 400
             if (!ModelState.IsValid)
             {
-                return UnprocessableEntity(ModelState); // TODO: Validation error output in a future module
+                return new ValidationFailedResult(ModelState); // 0422
             }
 
             var customer = new Customer
@@ -91,7 +81,7 @@ namespace SimpleCrm.WebApi.ApiControllers
             if (model == null) return BadRequest(); // 400
             if (!ModelState.IsValid)
             {
-                return UnprocessableEntity(ModelState); // TODO: Validation error output in a future module
+                return new ValidationFailedResult(ModelState);
             }
 
             var customer = _customerData.Get(id);
