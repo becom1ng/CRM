@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SimpleCrm.WebApi.Models;
+using System.Globalization;
 
 namespace SimpleCrm.WebApi.ApiControllers
 {
@@ -20,7 +22,18 @@ namespace SimpleCrm.WebApi.ApiControllers
         public IActionResult GetAll()
         {
             var customers = _customerData.GetAll(0, 50, "");
-            return Ok(customers); //200
+            var models = customers.Select(c => new CustomerDisplayViewModel
+            {
+                CustomerId = c.Id,
+                FirstName = c.FirstName,
+                LastName = c.LastName,
+                EmailAddress = c.EmailAddress,
+                PhoneNumber = c.PhoneNumber,
+                Status = Enum.GetName(typeof(CustomerStatus), c.Status),
+                PreferredContactMethod = Enum.GetName(typeof(InteractionMethod), c.PreferredContactMethod),
+                LastContactDate = c.LastContactDate.Year > 1 ? c.LastContactDate.ToString("s", CultureInfo.InstalledUICulture) : ""
+            });
+            return Ok(models); //200
         }
         /// <summary>
         /// Retrieves a single customer by id
@@ -35,14 +48,16 @@ namespace SimpleCrm.WebApi.ApiControllers
             {
                 return NotFound(); // 404
             }
-            return Ok(customer); // 200
+
+            var model = new CustomerDisplayViewModel(customer);
+            return Ok(model); // 200
         }
         /// <summary>
         /// Creates a new customer
         /// </summary>
         /// <returns></returns>
         [HttpPost("")] //  ./api/customers
-        public IActionResult Create([FromBody] Customer model)
+        public IActionResult Create([FromBody] CustomerCreateViewModel model)
         {
             if (model == null)
             {
@@ -50,12 +65,21 @@ namespace SimpleCrm.WebApi.ApiControllers
             }
             if (!ModelState.IsValid)
             {
-                // TODO: generate error once validation is implemented;
+                return UnprocessableEntity(ModelState);
             }
 
-            _customerData.Add(model); // TODO: fix later as this is bad
+            var customer = new Customer
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                EmailAddress = model.EmailAddress,
+                PhoneNumber = model.PhoneNumber,
+                PreferredContactMethod = model.PreferredContactMethod
+            };
+
+            _customerData.Add(customer);
             _customerData.Commit();
-            return Ok(model); // 200 // TODO: Change to Create (status 201) once URI generation is covered
+            return Ok(new CustomerDisplayViewModel(customer)); // 200 // TODO: Change to Create (status 201) once URI generation is covered
         }
         /// <summary>
         /// Updates a single customer by id
@@ -84,7 +108,7 @@ namespace SimpleCrm.WebApi.ApiControllers
             customer.EmailAddress = model.EmailAddress;
             customer.OptInNewsletter = model.OptInNewsletter;
             customer.Type = model.Type;
-            customer.InteractionMethod = model.InteractionMethod;
+            customer.PreferredContactMethod = model.PreferredContactMethod;
 
             _customerData.Update(model);
             _customerData.Commit();
