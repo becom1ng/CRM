@@ -59,13 +59,10 @@ namespace SimpleCrm.WebApi.ApiControllers
         [HttpPost("")] //  ./api/customers
         public IActionResult Create([FromBody] CustomerCreateViewModel model)
         {
-            if (model == null)
-            {
-                return BadRequest(); // 400
-            }
+            if (model == null) return BadRequest(); // 400
             if (!ModelState.IsValid)
             {
-                return UnprocessableEntity(ModelState);
+                return UnprocessableEntity(ModelState); // TODO: Validation error output in a future module
             }
 
             var customer = new Customer
@@ -87,20 +84,18 @@ namespace SimpleCrm.WebApi.ApiControllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPut("{id}")] //  ./api/customers/:id
-        public IActionResult Update(int id, [FromBody] Customer model)
+        public IActionResult Update(int id, [FromBody] CustomerUpdateViewModel model)
         {
             // TODO: Validation check? => return 401 Unauthorized
             
-            if (model == null)
+            if (model == null) return BadRequest(); // 400
+            if (!ModelState.IsValid)
             {
-                return BadRequest(); // 400
+                return UnprocessableEntity(ModelState); // TODO: Validation error output in a future module
             }
 
             var customer = _customerData.Get(id);
-            if (customer == null)
-            {
-                return NotFound(); // 404
-            }
+            if (customer == null) return NotFound(); // 404
 
             customer.FirstName = model.FirstName;
             customer.LastName = model.LastName;
@@ -110,9 +105,9 @@ namespace SimpleCrm.WebApi.ApiControllers
             customer.Type = model.Type;
             customer.PreferredContactMethod = model.PreferredContactMethod;
 
-            _customerData.Update(model);
+            _customerData.Update(customer);
             _customerData.Commit();
-            return Ok(model); // 200
+            return Ok(new CustomerDisplayViewModel(customer)); // 200
         }
         /// <summary>
         /// Deletes a single customer by id
