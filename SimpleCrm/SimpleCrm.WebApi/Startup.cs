@@ -17,17 +17,17 @@ namespace SimpleCrm.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<SimpleCrmDbContext>(options =>
-            { options.UseSqlServer(Configuration.GetConnectionString("SimpleCrmConnection")); });
-            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("SimpleCrmConnection")));
+/*            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("SimpleCrmConnection")));*/
+/*            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>();*/
             services.AddControllersWithViews();
             services.AddRazorPages();
 
             services.AddScoped<ICustomerData, SqlCustomerData>();
-            services.AddDbContext<CrmIdentityDbContext>(options =>
-            { options.UseSqlServer(Configuration.GetConnectionString("SimpleCrmConnection")); });
-            services.AddIdentity<CrmUser, IdentityRole>()
-                .AddEntityFrameworkStores<CrmIdentityDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
