@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SimpleCrm.WebApi.Models;
 using SimpleCrm.WebApi.Validation;
 
@@ -8,23 +9,47 @@ namespace SimpleCrm.WebApi.ApiControllers
     public class CustomerController : Controller
     {
         private readonly ICustomerData _customerData;
+        private readonly LinkGenerator _linkGenerator;
 
-        public CustomerController(ICustomerData customerData)
+        public CustomerController(ICustomerData customerData, LinkGenerator linkGenerator)
         {
             _customerData = customerData;
+            _linkGenerator = linkGenerator;
         }
 
         /// <summary>
         /// Gets all customers visible in the account of the current user
         /// </summary>
         /// <returns></returns>
-        [HttpGet("")] //  ./api/customers
-        public IActionResult GetAll()
+        [HttpGet("", Name = "GetCustomers")] //  ./api/customers
+        public IActionResult GetAll([FromQuery] int page = 1, [FromQuery] int take = 50)
         {
-            var customers = _customerData.GetAll(0, 50, "");
+            if (page < 1) page = 1;
+            if (take < 1) take = 1;
+            if (take > 100) take = 100;
+
+            var customers = _customerData.GetAll(page - 1, take, "");
             var models = customers.Select(c => new CustomerDisplayViewModel(c));
-            return Ok(models); //200
+
+            var pagination = new PaginationModel
+            {
+                Previous = page <= 1 ? null : GetCustomerResourceUri(page - 1, take),
+                Next = customers.Count < take ? null : GetCustomerResourceUri(page + 1, take)
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pagination));
+
+            return Ok(models); // 200
         }
+
+        private string GetCustomerResourceUri(int page, int take)
+        {
+            return _linkGenerator.GetPathByName(HttpContext, "GetCustomers", values: new
+            {
+                page = page,
+                take = take,
+            });
+        }
+
         /// <summary>
         /// Retrieves a single customer by id
         /// </summary>
