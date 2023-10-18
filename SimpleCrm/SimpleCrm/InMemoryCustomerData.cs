@@ -22,18 +22,9 @@
             return _customers.FirstOrDefault(x => x.Id == id);
         }
 
-        public IEnumerable<Customer> GetAll()
+        public List<Customer> GetAll(CustomerListParameters listParameters)
         {
-            return _customers;
-        }
-
-        public List<Customer> GetAll(int pageIndex, int take, string orderBy)
-        {
-            return _customers
-                .Skip(pageIndex * take) // bypasses a specified number of elements; take = page size
-                .Take(take) // get only this many items
-                .ToList(); // convert IEnumerable from prior methods to list
-                // TODO : orderBy
+            return _customers.ToList(); // no filters as inmemory is no longer used
         }
 
         public void Add(Customer customer)
@@ -64,5 +55,6 @@
             // Unused?! Add and update handle all changes, there is no dbcontext requiring a savechanges.
             return;
         }
+
     }
 }

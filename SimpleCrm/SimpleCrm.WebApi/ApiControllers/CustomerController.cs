@@ -22,31 +22,41 @@ namespace SimpleCrm.WebApi.ApiControllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("", Name = "GetCustomers")] //  ./api/customers
-        public IActionResult GetAll([FromQuery] int page = 1, [FromQuery] int take = 50)
+        public IActionResult GetCustomers([FromQuery] CustomerListParameters resourceParameters)
         {
-            if (page < 1) page = 1;
-            if (take < 1) take = 1;
-            if (take > 100) take = 100;
+            if (resourceParameters.Page < 1) resourceParameters.Page = 1;
+            if (resourceParameters.Take < 1) resourceParameters.Take = 1;
+            if (resourceParameters.Take > 100) resourceParameters.Take = 100;
 
-            var customers = _customerData.GetAll(page - 1, take, "");
+            var customers = _customerData.GetAll(resourceParameters);
             var models = customers.Select(c => new CustomerDisplayViewModel(c));
 
             var pagination = new PaginationModel
             {
-                Previous = page <= 1 ? null : GetCustomerResourceUri(page - 1, take),
-                Next = customers.Count < take ? null : GetCustomerResourceUri(page + 1, take)
+                Previous = CreateCustomersResourceUri(resourceParameters, -1),
+                // If all customers fit on one page, there is no next page
+                Next = customers.Count < resourceParameters.Take ? null : CreateCustomersResourceUri(resourceParameters, 1)
             };
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pagination));
 
             return Ok(models); // 200
         }
 
-        private string GetCustomerResourceUri(int page, int take)
+        private string CreateCustomersResourceUri(CustomerListParameters listParameters, int pageAdjust)
         {
+            if (listParameters.Page + pageAdjust <= 0)
+                return null; // if current page is first page, there is no previous page url
+
             return _linkGenerator.GetPathByName(HttpContext, "GetCustomers", values: new
             {
-                page = page,
-                take = take,
+                take = listParameters.Take,
+                page = listParameters.Page + pageAdjust, // +1 or -1 from current page of data
+                orderBy = listParameters.OrderBy,
+                lastName = listParameters.LastName,
+                firstName = listParameters.FirstName,
+                type = listParameters.Type,
+                status = listParameters.Status,
+                term = listParameters.Term,
             });
         }
 
