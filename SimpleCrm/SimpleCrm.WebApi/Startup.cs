@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using SimpleCrm.SqlDbServices;
+using SimpleCrm.WebApi.Auth;
 
 namespace SimpleCrm.WebApi
 {
@@ -28,6 +29,34 @@ namespace SimpleCrm.WebApi
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+
+            var googleOptions = Configuration.GetSection(nameof(GoogleAuthSettings));
+            services.Configure<GoogleAuthSettings>(options =>
+            {
+                options.ClientId = googleOptions[nameof(GoogleAuthSettings.ClientId)];
+                options.ClientSecret = googleOptions[nameof(GoogleAuthSettings.ClientSecret)];
+            });
+            var microsoftOptions = Configuration.GetSection(nameof(MicrosoftAuthSettings));
+            services.Configure<MicrosoftAuthSettings>(options =>
+            {
+                options.ClientId = microsoftOptions[nameof(MicrosoftAuthSettings.ClientId)];
+                options.ClientSecret = microsoftOptions[nameof(MicrosoftAuthSettings.ClientSecret)];
+            });
+
+            services.AddAuthentication()
+                .AddCookie(cfg => cfg.SlidingExpiration = true)
+                .AddGoogle(options =>
+                {
+                    options.ClientId = googleOptions[nameof(GoogleAuthSettings.ClientId)];
+                    options.ClientSecret = googleOptions[nameof(GoogleAuthSettings.ClientSecret)];
+                })
+               .AddMicrosoftAccount(options =>
+                {
+                    options.ClientId = microsoftOptions[nameof(MicrosoftAuthSettings.ClientId)];
+                    options.ClientSecret = microsoftOptions[nameof(MicrosoftAuthSettings.ClientSecret)];
+                });
+            ;
 
             services.AddSpaStaticFiles(config =>
             {

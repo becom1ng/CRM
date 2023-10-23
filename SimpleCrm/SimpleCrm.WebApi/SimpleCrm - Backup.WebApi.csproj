@@ -7,13 +7,11 @@
 	<SpaRoot>..\simple-crm-cli\</SpaRoot>
 	<SpaRootDest>ClientApp\</SpaRootDest>
 	<BuildServerSideRenderer>false</BuildServerSideRenderer>
-    <UserSecretsId>b2ba6e94-a758-4634-931c-b71cb46204d2</UserSecretsId>
+    <UserSecretsId>03a46e6b-124e-493d-8bca-6b82a1ce6684</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.23" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="6.0.23" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.23" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.23" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.23" />
@@ -50,7 +48,7 @@
 		<ItemGroup>
 			<DistFiles Include="$(SpaRoot)dist\simple-crm-cli\**; $(SpaRoot)dist-server\simple-crm-cli\**" />
 			<DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
-			<ResolvedFileToPublish Include="@(DistFiles->'%(Identity)')" Exclude="@(ResolvedFileToPublish)">
+			<ResolvedFileToPublish Include="@(DistFiles-&gt;'%(Identity)')" Exclude="@(ResolvedFileToPublish)">
 				<RelativePath>$(SpaRootDest)%(DistFiles.RecursiveDir)%(DistFiles.Filename)%(DistFiles.Extension)</RelativePath>
 				<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 			</ResolvedFileToPublish>
