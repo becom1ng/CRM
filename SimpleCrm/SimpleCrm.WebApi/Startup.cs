@@ -1,8 +1,11 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SimpleCrm.SqlDbServices;
 using SimpleCrm.WebApi.Auth;
+using System.Text;
 
 namespace SimpleCrm.WebApi
 {
@@ -26,6 +29,17 @@ namespace SimpleCrm.WebApi
             services.AddDefaultIdentity<CrmUser>()
               .AddDefaultUI()
               .AddEntityFrameworkStores<CrmIdentityDbContext>();
+
+            var secretKey = Configuration["Tokens:SigningSecretKey"];
+            var _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
+            var jwtOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
+            services.Configure<JwtIssuerOptions>(options =>
+            {
+                options.Issuer = jwtOptions[nameof(JwtIssuerOptions.Issuer)];
+                options.Audience = jwtOptions[nameof(JwtIssuerOptions.Audience)];
+                options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
+                // optionally: allow configuration overide of ValidFor (defaults to 120 mins)
+            });
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -51,12 +65,20 @@ namespace SimpleCrm.WebApi
                     options.ClientId = googleOptions[nameof(GoogleAuthSettings.ClientId)];
                     options.ClientSecret = googleOptions[nameof(GoogleAuthSettings.ClientSecret)];
                 })
-               .AddMicrosoftAccount(options =>
+                .AddMicrosoftAccount(options =>
                 {
                     options.ClientId = microsoftOptions[nameof(MicrosoftAuthSettings.ClientId)];
                     options.ClientSecret = microsoftOptions[nameof(MicrosoftAuthSettings.ClientSecret)];
                 });
             ;
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(configureOptions =>
+            {
+                // ... TODO: set token options
+            });
 
             services.AddSpaStaticFiles(config =>
             {
