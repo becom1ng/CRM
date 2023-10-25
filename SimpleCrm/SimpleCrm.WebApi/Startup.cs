@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using SimpleCrm.SqlDbServices;
 using SimpleCrm.WebApi.Auth;
 using System.Text;
+using Constants = SimpleCrm.WebApi.Auth.Constants;
 
 namespace SimpleCrm.WebApi
 {
@@ -26,10 +27,8 @@ namespace SimpleCrm.WebApi
             services.AddDbContext<CrmIdentityDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("SimpleCrmConnection")));
-            services.AddDefaultIdentity<CrmUser>()
-              .AddDefaultUI()
-              .AddEntityFrameworkStores<CrmIdentityDbContext>();
 
+            // jwtOptions
             var secretKey = Configuration["Tokens:SigningSecretKey"];
             var _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
             var jwtOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
@@ -41,50 +40,76 @@ namespace SimpleCrm.WebApi
                 // optionally: allow configuration overide of ValidFor (defaults to 120 mins)
             });
 
-            services.AddControllersWithViews();
-            services.AddRazorPages();
-
-
-            var googleOptions = Configuration.GetSection(nameof(GoogleAuthSettings));
-            services.Configure<GoogleAuthSettings>(options =>
+            // token setup
+            var tokenValidationPrms = new TokenValidationParameters
             {
-                options.ClientId = googleOptions[nameof(GoogleAuthSettings.ClientId)];
-                options.ClientSecret = googleOptions[nameof(GoogleAuthSettings.ClientSecret)];
-            });
-            var microsoftOptions = Configuration.GetSection(nameof(MicrosoftAuthSettings));
-            services.Configure<MicrosoftAuthSettings>(options =>
-            {
-                options.ClientId = microsoftOptions[nameof(MicrosoftAuthSettings.ClientId)];
-                options.ClientSecret = microsoftOptions[nameof(MicrosoftAuthSettings.ClientSecret)];
-            });
+                ValidateIssuer = true,
+                ValidIssuer = jwtOptions[nameof(JwtIssuerOptions.Issuer)],
+                ValidateAudience = true,
+                ValidAudience = jwtOptions[nameof(JwtIssuerOptions.Audience)],
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = _signingKey,
+                RequireExpirationTime = false,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero
+            };
 
-            services.AddAuthentication()
-                .AddCookie(cfg => cfg.SlidingExpiration = true)
-                .AddGoogle(options =>
-                {
-                    options.ClientId = googleOptions[nameof(GoogleAuthSettings.ClientId)];
-                    options.ClientSecret = googleOptions[nameof(GoogleAuthSettings.ClientSecret)];
-                })
-                .AddMicrosoftAccount(options =>
-                {
-                    options.ClientId = microsoftOptions[nameof(MicrosoftAuthSettings.ClientId)];
-                    options.ClientSecret = microsoftOptions[nameof(MicrosoftAuthSettings.ClientSecret)];
-                });
-            ;
+            // authentication for jwt
             services.AddAuthentication(options =>
-            {
+            {   //tells ASP.Net Identity the application is using JWT
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(configureOptions =>
-            {
-                // ... TODO: set token options
+            {   //tells ASP.Net to look for Bearer authentication with these options
+                configureOptions.ClaimsIssuer = jwtOptions[nameof(JwtIssuerOptions.Issuer)];
+                configureOptions.TokenValidationParameters = tokenValidationPrms;
+                configureOptions.SaveToken = true; // allows token access in controller
             });
 
+            // policy for API endpoint
+            services.AddAuthorization(options =>
+            { // created policy/role for use in CustomerController // can create as many as desired for use in controller
+                options.AddPolicy("ApiUser", policy => policy.RequireClaim(
+                  Constants.JwtClaimIdentifiers.Rol,
+                  Constants.JwtClaims.ApiAccess
+                ));
+            });
+
+            // add identity
+            var identityBuilder = services.AddIdentityCore<CrmUser>(o => {
+                //TODO: you may override any default password rules here.
+            });
+            identityBuilder = new IdentityBuilder(identityBuilder.UserType,
+              typeof(IdentityRole), identityBuilder.Services);
+            identityBuilder.AddEntityFrameworkStores<CrmIdentityDbContext>();
+            identityBuilder.AddRoleValidator<RoleValidator<IdentityRole>>();
+            identityBuilder.AddRoleManager<RoleManager<IdentityRole>>();
+            identityBuilder.AddSignInManager<SignInManager<CrmUser>>();
+            identityBuilder.AddDefaultTokenProviders();
+
+            // generate JWT
+            services.AddSingleton<IJwtFactory, JwtFactory>();
+
+            //var googleOptions = Configuration.GetSection(nameof(GoogleAuthSettings));
+            //services.Configure<GoogleAuthSettings>(options =>
+            //{
+            //    options.ClientId = googleOptions[nameof(GoogleAuthSettings.ClientId)];
+            //    options.ClientSecret = googleOptions[nameof(GoogleAuthSettings.ClientSecret)];
+            //});
+            //var microsoftOptions = Configuration.GetSection(nameof(MicrosoftAuthSettings));
+            //services.Configure<MicrosoftAuthSettings>(options =>
+            //{
+            //    options.ClientId = microsoftOptions[nameof(MicrosoftAuthSettings.ClientId)];
+            //    options.ClientSecret = microsoftOptions[nameof(MicrosoftAuthSettings.ClientSecret)];
+            //});
+
+            // other services
+            services.AddControllersWithViews();
+            services.AddRazorPages();
             services.AddSpaStaticFiles(config =>
             {
                 config.RootPath = Configuration["SpaRoot"];
             });
-
             services.AddScoped<ICustomerData, SqlCustomerData>();
         }
 
