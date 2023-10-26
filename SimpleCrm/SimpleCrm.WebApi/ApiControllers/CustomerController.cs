@@ -103,7 +103,7 @@ namespace SimpleCrm.WebApi.ApiControllers
 
             _customerData.Add(customer);
             _customerData.Commit();
-            return Ok(new CustomerDisplayViewModel(customer)); // 200 // TODO: Change to Create (status 201) once URI generation is covered
+            return Ok(new CustomerDisplayViewModel(customer)); // 200 // TODO? Change to Create (status 201) once URI generation is covered
         }
         /// <summary>
         /// Updates a single customer by id
