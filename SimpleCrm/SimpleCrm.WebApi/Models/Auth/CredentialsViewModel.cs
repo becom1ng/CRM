@@ -4,9 +4,9 @@ namespace SimpleCrm.WebApi.Models.Auth
 {
     public class CredentialsViewModel
     {
-        [Required]
+        [Required()]
         public string EmailAddress { get; set; }
-        [Required]
+        [Required()]
         public string Password { get; set; }
     }
 }
