@@ -22,6 +22,20 @@ namespace SimpleCrm.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // external auth settings
+            var googleOptions = Configuration.GetSection(nameof(GoogleAuthSettings));
+            services.Configure<GoogleAuthSettings>(options =>
+            {
+                options.ClientId = googleOptions[nameof(GoogleAuthSettings.ClientId)];
+                options.ClientSecret = googleOptions[nameof(GoogleAuthSettings.ClientSecret)];
+            });
+            var microsoftOptions = Configuration.GetSection(nameof(MicrosoftAuthSettings));
+            services.Configure<MicrosoftAuthSettings>(options =>
+            {
+                options.ClientId = microsoftOptions[nameof(MicrosoftAuthSettings.ClientId)];
+                options.ClientSecret = microsoftOptions[nameof(MicrosoftAuthSettings.ClientSecret)];
+            });
+
             services.AddDbContext<SimpleCrmDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("SimpleCrmConnection")));
             services.AddDbContext<CrmIdentityDbContext>(options =>
@@ -90,19 +104,7 @@ namespace SimpleCrm.WebApi
             // generate JWT
             services.AddSingleton<IJwtFactory, JwtFactory>();
 
-            //var googleOptions = Configuration.GetSection(nameof(GoogleAuthSettings));
-            //services.Configure<GoogleAuthSettings>(options =>
-            //{
-            //    options.ClientId = googleOptions[nameof(GoogleAuthSettings.ClientId)];
-            //    options.ClientSecret = googleOptions[nameof(GoogleAuthSettings.ClientSecret)];
-            //});
-            //var microsoftOptions = Configuration.GetSection(nameof(MicrosoftAuthSettings));
-            //services.Configure<MicrosoftAuthSettings>(options =>
-            //{
-            //    options.ClientId = microsoftOptions[nameof(MicrosoftAuthSettings.ClientId)];
-            //    options.ClientSecret = microsoftOptions[nameof(MicrosoftAuthSettings.ClientSecret)];
-            //});
-
+            
             // other services
             services.AddControllersWithViews();
             services.AddRazorPages();
