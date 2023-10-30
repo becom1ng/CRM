@@ -109,7 +109,7 @@ namespace SimpleCrm.WebApi.ApiControllers
             return Ok(userModel);
         }
 
-        [HttpPost("register")]
+        [HttpPost("register"), AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterUserViewModel model)
         {
             if (!ModelState.IsValid)

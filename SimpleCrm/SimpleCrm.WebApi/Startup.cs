@@ -104,8 +104,10 @@ namespace SimpleCrm.WebApi
             // generate JWT
             services.AddSingleton<IJwtFactory, JwtFactory>();
 
-            
+
+
             // other services
+            services.AddSwaggerDocument();
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddSpaStaticFiles(config =>
@@ -138,6 +140,9 @@ namespace SimpleCrm.WebApi
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
 
             app.UseEndpoints(endpoints =>
             {
