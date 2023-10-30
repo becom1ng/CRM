@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SimpleCrm.WebApi.Auth;
+using SimpleCrm.WebApi.Models;
 using SimpleCrm.WebApi.Models.Auth;
 
 namespace SimpleCrm.WebApi.ApiControllers
@@ -101,9 +102,37 @@ namespace SimpleCrm.WebApi.ApiControllers
 
             var user = await Authenticate(credentials.EmailAddress, credentials.Password);
             if (user == null) 
-                return UnprocessableEntity("Invalid username or password.");
+                return Unauthorized("Invalid username or password.");
 
             var userModel = await GetUserData(user);
+            // returns a UserSummaryViewModel containing a JWT and other user info
+            return Ok(userModel);
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterUserViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return UnprocessableEntity(ModelState);
+
+            var user = new CrmUser
+            {
+                UserName = model.EmailAddress,
+                Email = model.EmailAddress,
+                DisplayName = model.Name,
+            };
+            var createResult = await _userManager.CreateAsync(user, model.Password);
+            if (!createResult.Succeeded)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, "Could not create user.");
+            }
+
+            // final verification that new local user can be found and authd
+            var userAuth = await Authenticate(model.EmailAddress, model.Password);
+            if (userAuth == null)
+                return Unauthorized("Invalid username or password.");
+
+            var userModel = await GetUserData(userAuth);
             // returns a UserSummaryViewModel containing a JWT and other user info
             return Ok(userModel);
         }
@@ -127,7 +156,6 @@ namespace SimpleCrm.WebApi.ApiControllers
 
             return Forbid();
         }
-
 
         private async Task<CrmUser> Authenticate(string email, string password)
         {
