@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using NSwag;
+using NSwag.Generation.Processors.Security;
 using SimpleCrm.SqlDbServices;
 using SimpleCrm.WebApi.Auth;
 using System.Text;
@@ -103,11 +105,27 @@ namespace SimpleCrm.WebApi
 
             // generate JWT
             services.AddSingleton<IJwtFactory, JwtFactory>();
-
-
+            
+            // swagger for API documentation
+            services.AddOpenApiDocument(options =>
+            {
+                options.DocumentName = "v1";
+                options.Title = "Simple CRM";
+                options.Version = "1.0";
+                options.DocumentProcessors.Add(new SecurityDefinitionAppender("JWT token",
+                    new List<string>(), //no scope names to add
+                    new OpenApiSecurityScheme
+                    {
+                        In = OpenApiSecurityApiKeyLocation.Header,
+                        Name = "Authorization",
+                        Type = OpenApiSecuritySchemeType.ApiKey,
+                        Description = "Type into the texbox: 'Bearer {your_JWT_token}'. You can get a JWT from endpoints: '/auth/register' or '/auth/login'"
+                    }
+                )); ;
+                options.OperationProcessors.Add(new OperationSecurityScopeProcessor("JWT token"));
+            });
 
             // other services
-            services.AddSwaggerDocument();
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddSpaStaticFiles(config =>
@@ -123,7 +141,6 @@ namespace SimpleCrm.WebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseDatabaseErrorPage();
             }
             else
             {
@@ -141,6 +158,7 @@ namespace SimpleCrm.WebApi
             app.UseAuthentication();
             app.UseAuthorization();
 
+            // swagger
             app.UseOpenApi();
             app.UseSwaggerUi3();
 
