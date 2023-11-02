@@ -8,12 +8,14 @@ namespace SimpleCrm.WebApi.Controllers
     public class HomeController : Controller
     {
         [Route("")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)] // set action as cacheable
         public IActionResult Index()
         {
             return View();
         }
 
         [Route("about")]
+        [ResponseCache(Duration = 600, Location = ResponseCacheLocation.Any)] // set action as cacheable
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
@@ -22,6 +24,7 @@ namespace SimpleCrm.WebApi.Controllers
         }
 
         [Route("contact")]
+        [ResponseCache(Duration = 600, Location = ResponseCacheLocation.Any)] // set action as cacheable
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";

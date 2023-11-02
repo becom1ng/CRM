@@ -24,6 +24,7 @@ namespace SimpleCrm.WebApi.ApiControllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("", Name = "GetCustomers")] //  ./api/customers
+        [ResponseCache(Duration = 30, Location = ResponseCacheLocation.Client)] // set action as cacheable
         public IActionResult GetCustomers([FromQuery] CustomerListParameters resourceParameters)
         {
             if (resourceParameters.Page < 1) resourceParameters.Page = 1;

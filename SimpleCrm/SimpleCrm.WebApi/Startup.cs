@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using SimpleCrm.SqlDbServices;
@@ -121,11 +122,12 @@ namespace SimpleCrm.WebApi
                         Type = OpenApiSecuritySchemeType.ApiKey,
                         Description = "Type into the texbox: 'Bearer {your_JWT_token}'. You can get a JWT from endpoints: '/auth/register' or '/auth/login'"
                     }
-                )); ;
+                ));
                 options.OperationProcessors.Add(new OperationSecurityScopeProcessor("JWT token"));
             });
 
             // other services
+            services.AddResponseCaching();
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddSpaStaticFiles(config =>
@@ -150,13 +152,23 @@ namespace SimpleCrm.WebApi
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    const int durationInSeconds = 60 * 60 * 24 * 7; // 7 days
+                    ctx.Context.Response.Headers[HeaderNames.CacheControl] =
+                        "public,max-age=" + durationInSeconds;
+                }
+            });
             app.UseSpaStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseResponseCaching();
 
             // swagger
             app.UseOpenApi();

@@ -6,20 +6,22 @@
     <title>@ViewData["Title"] - SimpleCrm.WebApi</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <environment include="Development">
-        <link rel="stylesheet" href="/css/vendor.min.css">
-        <script src="/js/vendor.min.js"></script>
+        <link rel="stylesheet" href="/css/vendor.min.css" asp-append-version="true">
+        <script src="/js/vendor.min.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-amber.min.css"
-              asp-fallback-href="/css/vendor.min.css"
-              asp-fallback-test-class="mdl-layout__header-row"
-              asp-fallback-test-property="display"
-              asp-fallback-test-value="flex">
+            asp-fallback-href="/css/vendor.min.css"
+            asp-fallback-test-class="mdl-layout__header-row"
+            asp-fallback-test-property="display"
+            asp-fallback-test-value="flex"
+            asp-append-version="true">
         <script defer src="https://code.getmdl.io/1.3.0/material.min.js"
             asp-fallback-src="/js/vendor.min.js"
-            asp-fallback-test="window.MaterialButton"></script>
+            asp-fallback-test="window.MaterialButton"
+            asp-append-version="true"></script>
     </environment>
-    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/site.css" asp-append-version="true">
 </head>
 <body>
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -98,6 +100,6 @@
 
         </footer>
     </div>
-    <script src="/js/vendor-post.min.js"></script>
+    <script type="text/javascript" src="/js/vendor-post.min.js" asp-append-version="true"></script>
 </body>
 </html>
