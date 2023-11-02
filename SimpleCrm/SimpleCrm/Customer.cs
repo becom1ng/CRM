@@ -21,5 +21,10 @@ namespace SimpleCrm
         public InteractionMethod PreferredContactMethod { get; set; }
         public CustomerStatus Status { get; set; }
         public DateTime LastContactDate { get; set; }
+        [Required()]
+        /// <summary>
+        /// The last time this customer was updated. Optimistic concurrency control.
+        /// </summary>
+        public DateTime LastModified { get; set; } = DateTime.UtcNow;
     }
 }

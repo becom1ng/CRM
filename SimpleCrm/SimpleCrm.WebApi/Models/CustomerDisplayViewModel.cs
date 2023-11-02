@@ -13,6 +13,7 @@ namespace SimpleCrm.WebApi.Models
         public string Type { get; set; }
         public string Status { get; set; }
         public string LastContactDate { get; set; }
+        public string LastModified { get; set; }
 
         public CustomerDisplayViewModel() { }
         public CustomerDisplayViewModel(Customer source)
@@ -27,6 +28,7 @@ namespace SimpleCrm.WebApi.Models
             Type = Enum.GetName(typeof(CustomerType), source.Type);
             Status = Enum.GetName(typeof(CustomerStatus), source.Status);
             LastContactDate = source.LastContactDate.Year > 1 ? source.LastContactDate.ToString("s", CultureInfo.InstalledUICulture) : "";
+            LastModified = source.LastModified.Year > 1 ? source.LastModified.ToString("s", CultureInfo.InstalledUICulture) : "";
         }
     }
 }

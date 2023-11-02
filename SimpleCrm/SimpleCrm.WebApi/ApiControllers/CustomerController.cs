@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SimpleCrm.WebApi.Models;
 using SimpleCrm.WebApi.Validation;
+using System.Net;
 
 namespace SimpleCrm.WebApi.ApiControllers
 {
@@ -41,6 +42,7 @@ namespace SimpleCrm.WebApi.ApiControllers
                 Next = customers.Count < resourceParameters.Take ? null : CreateCustomersResourceUri(resourceParameters, 1)
             };
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pagination));
+            // TODO? Add ETag
 
             return Ok(models); // 200
         }
@@ -76,6 +78,7 @@ namespace SimpleCrm.WebApi.ApiControllers
             {
                 return NotFound(); // 404
             }
+            Response.Headers.Add("ETag", $"{customer.LastModified}");
 
             var model = new CustomerDisplayViewModel(customer);
             return Ok(model); // 200
@@ -106,6 +109,7 @@ namespace SimpleCrm.WebApi.ApiControllers
             _customerData.Commit();
             return Ok(new CustomerDisplayViewModel(customer)); // 200 // TODO? Change to Create (status 201) once URI generation is covered
         }
+
         /// <summary>
         /// Updates a single customer by id
         /// </summary>
@@ -114,8 +118,6 @@ namespace SimpleCrm.WebApi.ApiControllers
         [HttpPut("{id}")] //  ./api/customers/:id
         public IActionResult Update(int id, [FromBody] CustomerUpdateViewModel model)
         {
-            // TODO: Validation check? => return 401 Unauthorized
-            
             if (model == null) return BadRequest(); // 400
             if (!ModelState.IsValid)
             {
@@ -125,6 +127,12 @@ namespace SimpleCrm.WebApi.ApiControllers
             var customer = _customerData.Get(id);
             if (customer == null) return NotFound(); // 404
 
+            string ifMatch = Request.Headers["If-Match"];
+            if (ifMatch != customer.LastModified.ToString())
+            {
+                return StatusCode(422, "The customer data has been changed since it was requested. Please reload and try again."); // 422
+            }
+
             customer.FirstName = model.FirstName;
             customer.LastName = model.LastName;
             customer.PhoneNumber = model.PhoneNumber;
@@ -132,6 +140,7 @@ namespace SimpleCrm.WebApi.ApiControllers
             customer.OptInNewsletter = model.OptInNewsletter;
             customer.Type = model.Type;
             customer.PreferredContactMethod = model.PreferredContactMethod;
+            customer.LastModified = DateTime.UtcNow;
 
             _customerData.Update(customer);
             _customerData.Commit();
@@ -145,8 +154,6 @@ namespace SimpleCrm.WebApi.ApiControllers
         [HttpDelete("{id}")] //  ./api/customers/:id
         public IActionResult Delete(int id)
         {
-            // TODO: Validation check? => return 401 Unauthorized
-
             var customer = _customerData.Get(id);
             if (customer != null)
             {

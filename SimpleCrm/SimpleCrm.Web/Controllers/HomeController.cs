@@ -17,9 +17,15 @@ namespace SimpleCrm.Web.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
+            var resourceParameters = new CustomerListParameters
+            {
+                Page = 1,
+                Take = 1000,
+            };
+
             var model = new HomePageViewModel
             {
-                Customers = _customerData.GetAll()
+                Customers = _customerData.GetAll(resourceParameters)
             };
             return View(model);
         }
