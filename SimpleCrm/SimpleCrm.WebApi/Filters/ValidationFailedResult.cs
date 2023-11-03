@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SimpleCrm.WebApi.Models;
 
-namespace SimpleCrm.WebApi.Validation
+namespace SimpleCrm.WebApi.Filters
 {
     public class ValidationFailedResult : ObjectResult
     {
