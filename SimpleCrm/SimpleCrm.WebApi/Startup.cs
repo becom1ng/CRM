@@ -9,6 +9,7 @@ using NSwag.Generation.Processors.Security;
 using SimpleCrm.SqlDbServices;
 using SimpleCrm.WebApi.Auth;
 using System.Text;
+using System.Text.Json.Serialization;
 using Constants = SimpleCrm.WebApi.Auth.Constants;
 
 namespace SimpleCrm.WebApi
@@ -128,7 +129,12 @@ namespace SimpleCrm.WebApi
 
             // other services
             services.AddResponseCaching();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddJsonOptions(options =>
+                    {
+                        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); // enums to names
+                        options.JsonSerializerOptions.PropertyNameCaseInsensitive = true; // for safety - worth the performance cost?
+                    });
             services.AddRazorPages();
             services.AddSpaStaticFiles(config =>
             {

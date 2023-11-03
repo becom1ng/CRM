@@ -9,11 +9,11 @@ namespace SimpleCrm.WebApi.Models
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public string EmailAddress { get; set; }
-        public string PreferredContactMethod { get; set; }
-        public string Type { get; set; }
-        public string Status { get; set; }
-        public string LastContactDate { get; set; }
-        public string LastModified { get; set; }
+        public CustomerType Type { get; set; }
+        public InteractionMethod PreferredContactMethod { get; set; }
+        public CustomerStatus Status { get; set; }
+        public DateTimeOffset LastContactDate { get; set; }
+        public DateTimeOffset LastModified { get; set; }
 
         public CustomerDisplayViewModel() { }
         public CustomerDisplayViewModel(Customer source)
@@ -24,11 +24,11 @@ namespace SimpleCrm.WebApi.Models
             LastName = source.LastName;
             PhoneNumber = source.PhoneNumber;
             EmailAddress = source.EmailAddress;
-            PreferredContactMethod = Enum.GetName(typeof(InteractionMethod), source.PreferredContactMethod);
-            Type = Enum.GetName(typeof(CustomerType), source.Type);
-            Status = Enum.GetName(typeof(CustomerStatus), source.Status);
-            LastContactDate = source.LastContactDate.Year > 1 ? source.LastContactDate.ToString("s", CultureInfo.InstalledUICulture) : "";
-            LastModified = source.LastModified.Year > 1 ? source.LastModified.ToString("s", CultureInfo.InstalledUICulture) : "";
+            PreferredContactMethod = source.PreferredContactMethod;
+            Type = source.Type;
+            Status = source.Status;
+            LastContactDate = source.LastContactDate;
+            LastModified = source.LastModified;
         }
     }
 }
