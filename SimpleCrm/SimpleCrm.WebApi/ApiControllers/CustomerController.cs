@@ -111,7 +111,7 @@ namespace SimpleCrm.WebApi.ApiControllers
 
             _customerData.Add(customer);
             _customerData.Commit();
-            _logger.LogCritical($"A new customer was created. id:{customer.Id}", customer);
+            _logger.LogInformation($"A new customer was created. id:{customer.Id}", customer);
             return Ok(new CustomerDisplayViewModel(customer)); // 200 // TODO? Change to Create (status 201) once URI generation is covered
         }
 
@@ -163,7 +163,7 @@ namespace SimpleCrm.WebApi.ApiControllers
             var customer = _customerData.Get(id);
             if (customer != null)
             {
-                _logger.LogCritical($"Customer id:{id} was DELETED.", customer);
+                _logger.LogInformation($"Customer id:{id} was DELETED.", customer);
                 _customerData.Delete(customer);
                 _customerData.Commit();
             }
