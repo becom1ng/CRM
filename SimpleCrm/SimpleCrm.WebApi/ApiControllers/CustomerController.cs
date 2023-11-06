@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using SimpleCrm.WebApi.Filters;
 using SimpleCrm.WebApi.Models;
-using SimpleCrm.WebApi.Validation;
-using System.Net;
 
 namespace SimpleCrm.WebApi.ApiControllers
 {

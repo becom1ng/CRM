@@ -8,6 +8,7 @@ using NSwag;
 using NSwag.Generation.Processors.Security;
 using SimpleCrm.SqlDbServices;
 using SimpleCrm.WebApi.Auth;
+using SimpleCrm.WebApi.Filters;
 using System.Text;
 using System.Text.Json.Serialization;
 using Constants = SimpleCrm.WebApi.Auth.Constants;
@@ -129,7 +130,10 @@ namespace SimpleCrm.WebApi
 
             // other services
             services.AddResponseCaching();
-            services.AddControllersWithViews()
+            services.AddControllersWithViews(options =>
+                {
+                    options.Filters.Add(typeof(GlobalExceptionFilter));
+                })
                 .AddJsonOptions(options =>
                     {
                         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); // enums to names
