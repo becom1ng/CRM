@@ -33,7 +33,7 @@ namespace SimpleCrm.WebApi.Filters
             };
 
             var eventId = new EventId(statusCode);
-            _logger.LogError(eventId, exception, "An error occured, was model state valid: {0}, Exception details: {1}", context.ModelState.IsValid, exception.StackTrace);
+            _logger.LogError(eventId, exception, "\n*** An error occured!\n*** Was model state valid? {0}\n*** Exception details: {1}", context.ModelState.IsValid, exception.StackTrace);
 
             // no return type, instead you set the context.Result as last line in this method
             // an object with the error details

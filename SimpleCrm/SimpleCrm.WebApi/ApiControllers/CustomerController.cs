@@ -12,11 +12,13 @@ namespace SimpleCrm.WebApi.ApiControllers
     {
         private readonly ICustomerData _customerData;
         private readonly LinkGenerator _linkGenerator;
+        private readonly ILogger<CustomerController> _logger;
 
-        public CustomerController(ICustomerData customerData, LinkGenerator linkGenerator)
+        public CustomerController(ICustomerData customerData, LinkGenerator linkGenerator, ILogger<CustomerController> logger)
         {
             _customerData = customerData;
             _linkGenerator = linkGenerator;
+            _logger = logger;
         }
 
         /// <summary>
@@ -43,6 +45,7 @@ namespace SimpleCrm.WebApi.ApiControllers
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(pagination));
             // TODO? Add ETag
 
+            _logger.LogInformation("GetCustomers executed successfully.");
             return Ok(models); // 200
         }
 
@@ -80,6 +83,8 @@ namespace SimpleCrm.WebApi.ApiControllers
             Response.Headers.Add("ETag", $"{customer.LastModified}");
 
             var model = new CustomerDisplayViewModel(customer);
+
+            _logger.LogInformation($"Get customer by id executed successfully. id:{id}");
             return Ok(model); // 200
         }
         /// <summary>
@@ -106,6 +111,7 @@ namespace SimpleCrm.WebApi.ApiControllers
 
             _customerData.Add(customer);
             _customerData.Commit();
+            _logger.LogCritical($"A new customer was created. id:{customer.Id}", customer);
             return Ok(new CustomerDisplayViewModel(customer)); // 200 // TODO? Change to Create (status 201) once URI generation is covered
         }
 
@@ -143,6 +149,7 @@ namespace SimpleCrm.WebApi.ApiControllers
 
             _customerData.Update(customer);
             _customerData.Commit();
+            _logger.LogInformation($"Customer id:{id} was updated.");
             return Ok(new CustomerDisplayViewModel(customer)); // 200
         }
         /// <summary>
@@ -156,6 +163,7 @@ namespace SimpleCrm.WebApi.ApiControllers
             var customer = _customerData.Get(id);
             if (customer != null)
             {
+                _logger.LogCritical($"Customer id:{id} was DELETED.", customer);
                 _customerData.Delete(customer);
                 _customerData.Commit();
             }

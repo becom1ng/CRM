@@ -11,8 +11,8 @@ namespace SimpleCrm.WebApi.Controllers
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)] // set action as cacheable
         public IActionResult Index()
         {
-            throw new ApiException("An exceptional test. :D"); // TESTING custom error handler
-            //return View();
+            //throw new ApiException("An exceptional test. :D"); // TESTING custom error handler
+            return View();
         }
 
         [Route("about")]

@@ -133,6 +133,7 @@ namespace SimpleCrm.WebApi.ApiControllers
                 return Unauthorized("Invalid username or password.");
 
             var userModel = await GetUserData(userAuth);
+            _logger.LogInformation("User created a new account with password.");
             // returns a UserSummaryViewModel containing a JWT and other user info
             return Ok(userModel);
         }
