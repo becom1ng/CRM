@@ -93,4 +93,9 @@
             </tbody>
         </table>
     </mat-card>
+    <mat-card>
+        <pre>
+            {{customers$ | async | json}}
+        </pre>
+    </mat-card>
 </div>
