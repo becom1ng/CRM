@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Customer } from '../customer.model';
 import { CustomerService } from '../customer.service';
 import { Observable } from 'rxjs';
+import { debounceTime, startWith, switchMap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomerCreateDialogComponent } from '../customer-create-dialog/customer-create-dialog.component';
 import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'crm-customer-list-page',
@@ -12,14 +14,23 @@ import { Router } from '@angular/router';
   styleUrls: ['./customer-list-page.component.scss']
 })
 export class CustomerListPageComponent implements OnInit {
-  customers$: Observable<Customer[]>;
+  filteredCustomers$: Observable<Customer[]>;
+  // the column names must match the matColumnDef names in the html
   displayColumns = ['icon', 'name', 'phoneNumber', 'emailAddress', 'status', 'lastContactDate', 'details'];
-  // the above column names must match the matColumnDef names in the html
+  filterInput = new FormControl();
   
-  constructor(private customerService: CustomerService,
+  constructor(
+    private customerService: CustomerService,
     public dialog: MatDialog,
-    private router: Router) {
-    this.customers$ = this.customerService.search('');
+    private router: Router
+    ) {
+    this.filteredCustomers$ = this.filterInput.valueChanges.pipe(
+      startWith(''),
+      debounceTime(700),
+      switchMap((filterTerm: string) => {
+        return this.customerService.search(filterTerm);
+      })
+    )
   }
 
   ngOnInit(): void {}
@@ -35,4 +46,5 @@ export class CustomerListPageComponent implements OnInit {
       width: '260px',
       data: null,
     });
-  }};
+  }
+};
