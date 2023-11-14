@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 
 import { CustomerModule } from './customer/customer.module';
 import { AppIconsService } from './customer/app-icons.service';
+import { AccountModule } from './account/account.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { AppIconsService } from './customer/app-icons.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    AccountModule,
     BrowserAnimationsModule,
     CustomerModule,
     MatToolbarModule,
