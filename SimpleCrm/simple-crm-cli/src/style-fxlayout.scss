@@ -316,6 +316,16 @@
    padding: 0px 10px 10px 0px;
  }
 
+ *[fxLayoutGap="20px"],
+ *[fxLayoutGap="20px grid"] {
+   margin: 0px -20px -20px 0px;
+ }
+
+ *[fxLayoutGap="20px"]>*,
+ *[fxLayoutGap="20px grid"]>* {
+   padding: 0px 20px 20px 0px;
+ }
+
  // TODO: add more gap sizes if you need them?  
  // example with rems:
  // I normally prefer using the rem options (a rem is about 16px)
