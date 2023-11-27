@@ -1,13 +1,17 @@
 {
-    "terminal.integrated.profiles.windows": {
-        "PowerShell": {
-          "source": "PowerShell",
-          "icon": "terminal-powershell",
-          "args": ["-ExecutionPolicy", "Bypass"]
-        }
-      },
-      "terminal.integrated.defaultProfile.windows": "PowerShell",
-      "files.exclude": {
-        "**/*.spec.ts": true
-      }
+	"terminal.integrated.profiles.windows": {
+		"PowerShell": {
+			"source": "PowerShell",
+			"icon": "terminal-powershell",
+			"args": ["-ExecutionPolicy", "Bypass"]
+		}
+	},
+	"terminal.integrated.defaultProfile.windows": "PowerShell",
+	"files.exclude": {
+		"**/*.spec.ts": true
+	},
+	"editor.defaultFormatter": null,
+	"[jsonc]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	}
 }
