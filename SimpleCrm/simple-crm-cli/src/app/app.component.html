@@ -1,21 +1,29 @@
 <div style="height:100vh; display:flex; flex-direction:column;">
-  <mat-toolbar color="primary">
+  <mat-toolbar color="primary" fxLayout="row" FxLayoutAlign="start">
     <button mat-icon-button matRipple (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
+      <mat-icon>menu</mat-icon>
     </button>
     <span class="title">{{title}}</span>
+    <span fxFlex="grow"></span>
+    <span *ngIf="userInfo$ | async as userInfo">
+      <button *ngIf="userInfo.name === 'Anonymous' || userInfo.name === ''" mat-button (click)="onAccount()">
+        Login
+      </button>
+      <button *ngIf="userInfo.name != 'Anonymous' && userInfo.name != ''" mat-button (click)="onLogout()">
+        Logout
+      </button>
+    </span>
   </mat-toolbar>
   <mat-sidenav-container style="flex:1 100%">
-    <mat-sidenav #sidenav [opened]="true" [mode]="'side'">
+    <mat-sidenav #sidenav [opened]="false" [mode]="'side'">
       <mat-nav-list>
-        <a mat-list-item matRipple [style.position]="'relative'"
-          routerLinkActive="selected" [routerLink]="['./customers']">
+        <a mat-list-item matRipple [style.position]="'relative'" routerLinkActive="selected"
+          [routerLink]="['./customers']">
           <mat-icon matListItemIcon>home</mat-icon>
           <h4 matListItemTitle class="navCustomers">Customers</h4>
           <span matListItemLine>potential buyers, not users of this app</span>
         </a>
-        <a mat-list-item matRipple [style.position]="'relative'"
-          routerLinkActive="selected" [routerLink]="['.']">
+        <a mat-list-item matRipple [style.position]="'relative'" routerLinkActive="selected" [routerLink]="['.']">
           <mat-icon matListItemIcon>chat</mat-icon>
           <h4 matListItemTitle class="navPipeline">Pipeline</h4>
           <span matListItemLine>List of customers to call next</span>

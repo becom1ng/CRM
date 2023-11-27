@@ -1,0 +1,35 @@
+<div class="login-container">
+    <form [formGroup]="registrationForm" (submit)="onSubmit()" novalidate>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Register</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <section FxLayout="row wrap" FxLayoutAlign="center center">
+          <mat-form-field>
+            <mat-label>Email Address</mat-label>
+            <input matInput #emailAddress formControlName="emailAddress" name="emailAddress">
+            <mat-error *ngIf="!emailAddress.value">Email address is required.</mat-error>
+            <mat-error *ngIf="!!emailAddress.value">Invalid email address.</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" name="password" />
+          </mat-form-field>
+          <!-- TODO: FIX THIS PASSWORD VERIFICATION FIELD -->
+          <mat-form-field>
+            <mat-label>Verify Password</mat-label>
+            <input matInput formControlName="confirmPasswordClass" name="confirmPasswordClass" />
+          </mat-form-field>
+        </section>
+      </mat-card-content>
+      <mat-card-actions fxLayout="row" FxLayoutAlign="start">
+        <!-- <section fxLayout="row" FxLayoutAlign="start" style="width: 100%"> -->
+          <button mat-raised-button (click)="onSubmit()" color="accent">Register</button>
+          <span fxFlex="grow"></span>
+          <button mat-button (click)="cancel()" class="login-button" FxLayoutAlign="end">Cancel</button>
+        <!-- </section> -->
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

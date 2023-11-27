@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SimpleCrm.WebApi.Auth;
-using SimpleCrm.WebApi.Models;
 using SimpleCrm.WebApi.Models.Auth;
 
 namespace SimpleCrm.WebApi.ApiControllers
@@ -17,14 +16,16 @@ namespace SimpleCrm.WebApi.ApiControllers
         private readonly IConfiguration _configuration;
         private readonly ILogger<AuthController> _logger;
         private readonly MicrosoftAuthSettings _microsoftAuthSettings;
+        private readonly GoogleAuthSettings _googleAuthSettings;
 
-        public AuthController(UserManager<CrmUser> userManager, IJwtFactory jwtFactory, IConfiguration configuration, ILogger<AuthController> logger, IOptions<MicrosoftAuthSettings> microsoftAuthSettings)
+        public AuthController(UserManager<CrmUser> userManager, IJwtFactory jwtFactory, IConfiguration configuration, ILogger<AuthController> logger, IOptions<MicrosoftAuthSettings> microsoftAuthSettings, IOptions<GoogleAuthSettings> googleAuthSettings)
         {
             _userManager = userManager;
             _jwtFactory = jwtFactory;
             _configuration = configuration;
             _logger = logger;
             _microsoftAuthSettings = microsoftAuthSettings.Value;
+            _googleAuthSettings = googleAuthSettings.Value;
         }
 
         [HttpGet("external/microsoft")]
@@ -56,6 +57,74 @@ namespace SimpleCrm.WebApi.ApiControllers
 
             // verify UserLoginInfo
             var info = new UserLoginInfo("Microsoft", profile.Id, "Microsoft");
+            if (info == null || String.IsNullOrWhiteSpace(info.ProviderKey))
+            {
+                return BadRequest(); // 400 - TODO? Provide an error message.
+            }
+
+            // ready to create the LOCAL user account (if necessary) and jwt
+            var user = await _userManager.FindByEmailAsync(profile.Mail);
+            if (user == null)
+            {
+                // create a new user
+                var newUser = new CrmUser
+                {
+                    UserName = profile.Mail,
+                    Email = profile.Mail,
+                    DisplayName = profile.DisplayName,
+                    PhoneNumber = profile.MobilePhone
+                };
+
+                // generate password - #1aA ensures all required character types will be in the random password
+                var password = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 8) + "#1aA";
+                var createResult = await _userManager.CreateAsync(newUser, password);
+                if (!createResult.Succeeded)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, "Could not create user.");
+                }
+
+                // final verification that new local user can be found
+                user = await _userManager.FindByEmailAsync(profile.Mail);
+                if (user == null)
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, "Failed to create local user account.");
+                }
+            }
+
+            var userModel = await GetUserData(user);
+            return Ok(userModel);
+        }
+
+        [HttpGet("external/google")]
+        public IActionResult GetGoogle()
+        {   // only needed for the client to know what to send to Google on the front-end redirect to login with Google
+            return Ok(new
+            {   //this is the public application id, don't return the secret 'Password' here!
+                client_id = _googleAuthSettings.ClientId,
+                scope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid",
+                state = "" //arbitrary state to return again for this user
+            });
+        }
+
+        // ****** TODO: Set this up for Google with JWT.
+        [HttpPost("external/google")]
+        public async Task<IActionResult> PostGoogle([FromBody] GoogleAuthViewModel model)
+        {
+            var verifier = new GoogleAuthVerifier<AuthController>(_googleAuthSettings, _configuration["HttpHost"] + (model.BaseHref ?? "/"), _logger);
+            var profile = await verifier.AcquireUser(model.AccessToken);
+
+            // validate the 'profile' object is successful, and email address is included
+            if (!profile.IsSuccessful)
+            {
+                return BadRequest(); // 400 - TODO? Provide an error message.
+            }
+            if (String.IsNullOrWhiteSpace(profile.Mail))
+            {
+                return Forbid("Email address not available from provider."); // 403
+            }
+
+            // verify UserLoginInfo
+            var info = new UserLoginInfo("Google", profile.Id, "Google");
             if (info == null || String.IsNullOrWhiteSpace(info.ProviderKey))
             {
                 return BadRequest(); // 400 - TODO? Provide an error message.
@@ -138,14 +207,16 @@ namespace SimpleCrm.WebApi.ApiControllers
             return Ok(userModel);
         }
 
+        /// <summary>
+        /// Endpoint to refresh/regenerate JWT token if user stays logged in.
+        /// </summary>
+        /// <returns></returns>
         [Authorize(Policy = "ApiUser")] // policy created in startup.cs
         [HttpPost("verify")] // POST api/auth/verify
         public async Task<IActionResult> Verify()
         {
             if (User.Identity.IsAuthenticated)
             {
-
-                // TODO: figure this out as part of the assignment
                 var userId = User.Claims.Single(c => c.Type == "id");
                 var user = _userManager.Users.FirstOrDefault(x => x.Id.ToString() == userId.Value);
                 if (user == null)

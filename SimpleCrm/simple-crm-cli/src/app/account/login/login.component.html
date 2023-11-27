@@ -1,0 +1,70 @@
+<div class="login-container">
+
+  <mat-card *ngIf="loginType === 'undecided' && !(currentUser | async)?.jwtToken">
+    <mat-card-header>
+      <mat-card-title>Sign In</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <section FxLayout="column" FxLayoutAlign="space-between start">
+        <button mat-flat-button (click)="usePassword()" class="login-button">
+          <mat-icon svgIcon="group-logo" class="size-24"></mat-icon>
+          <span>Use SimpleCRM Password</span>
+        </button>
+        <button mat-flat-button (click)="useMicrosoft()" class="login-button">
+          <mat-icon svgIcon="microsoft" class="size-24"></mat-icon>
+          <span>Use Microsoft</span>
+        </button>
+        <button mat-flat-button (click)="useGoogle()" class="login-button">
+          <mat-icon svgIcon="google" class="size-24"></mat-icon>
+          <span>Use Google</span>
+        </button>
+      </section>
+    </mat-card-content>
+    <mat-card-actions>
+      <section FxLayout="column">
+        <button mat-button (click)="register()">No account? Join now.</button>
+      </section>
+    </mat-card-actions>
+  </mat-card>
+
+  <form *ngIf="loginType === 'password' && !(currentUser | async)?.jwtToken" [formGroup]="loginForm"
+    (submit)="onSubmit()" novalidate>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Sign In</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <section FxLayout="row wrap" FxLayoutAlign="center center">
+          <mat-form-field>
+            <mat-label>Email Address</mat-label>
+            <input matInput formControlName="emailAddress" name="emailAddress" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" name="password" />
+          </mat-form-field>
+        </section>
+      </mat-card-content>
+      <mat-card-actions>
+        <section FxLayout="column" FxLayoutAlign="space-between start">
+          <button mat-raised-button (click)="onSubmit()" color="accent">Login</button>
+          <button mat-button (click)="useUndecided()" class="login-button">Choose Another Option</button>
+        </section>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+
+  <mat-card *ngIf="loginType === 'undecided' && (currentUser | async)?.jwtToken">
+    <mat-card-header>
+      <mat-card-title>Sign In</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      You are already logged in!
+    </mat-card-content>
+    <mat-card-actions>
+      <section FxLayout="column" FxLayoutAlign="space-between start">
+        <button mat-raised-button (click)="logout()" color="accent">Logout</button>
+      </section>
+    </mat-card-actions>
+  </mat-card>
+</div>
