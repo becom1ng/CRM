@@ -62,7 +62,7 @@ export class AccountService {
     );
   }
 
-  // optional: add other methods that calculate if the current cachedUser has
+  // TODO Optional: add other methods that calculate if the current cachedUser has
   // a specific role or permission in the app
 
   // !! Ensure both match your C# Api signatures from the prior course.

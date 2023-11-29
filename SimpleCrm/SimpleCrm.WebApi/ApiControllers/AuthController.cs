@@ -106,7 +106,6 @@ namespace SimpleCrm.WebApi.ApiControllers
             });
         }
 
-        // ****** TODO: Set this up for Google with JWT.
         [HttpPost("external/google")]
         public async Task<IActionResult> PostGoogle([FromBody] GoogleAuthViewModel model)
         {
