@@ -24,7 +24,7 @@ export class CustomerService {
   }
 
   update(customer: Customer): Observable<Customer> {
-    // example url: /api/customer/5
+    // example url: /api/customers/5
     return this.http.put<Customer>(
       `/api/customers/${customer.customerId}`,
       customer

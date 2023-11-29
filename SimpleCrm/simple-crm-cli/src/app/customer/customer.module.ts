@@ -13,10 +13,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { environment } from 'src/environments/environment';
 import { CustomerRoutingModule } from './customer-routing.module';
 import { CustomerService } from './customer.service';
-import { CustomerMockService } from './customer-mock.service';
 
 import { CustomerListPageComponent } from './customer-list-page/customer-list-page.component';
 import { CustomerListPageAltComponent } from './customer-list-page-alt/customer-list-page-alt.component';
@@ -52,7 +50,6 @@ import { StatusIconPipe } from './status-icon.pipe';
     {
       provide: CustomerService,
       useClass: CustomerService,
-      // useClass: environment.production ? CustomerService : CustomerMockService, // Mock service for development
     },
   ],
 })

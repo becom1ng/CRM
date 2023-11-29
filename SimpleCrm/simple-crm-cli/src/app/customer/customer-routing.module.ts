@@ -9,18 +9,18 @@ const routes: Routes = [
   {
     path: 'customers',
     pathMatch: 'full',
-    component: CustomerListPageComponent
+    component: CustomerListPageComponent,
   },
   {
-    path: 'customer/:id', // id paramater
+    path: 'customers/:id', // id paramater
     pathMatch: 'full',
     component: CustomerDetailComponent,
     canActivate: [AuthenticatedGuard],
-  }
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class CustomerRoutingModule { }
+export class CustomerRoutingModule {}
