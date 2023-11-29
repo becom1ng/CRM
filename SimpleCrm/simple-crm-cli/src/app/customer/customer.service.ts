@@ -4,10 +4,9 @@ import { Observable } from 'rxjs';
 import { Customer } from './customer.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CustomerService {
-
   constructor(private http: HttpClient) {
     console.warn('Using CustomerService. Production environments.');
   }
@@ -15,7 +14,7 @@ export class CustomerService {
   search(term: string): Observable<Customer[]> {
     return this.http.get<Customer[]>('/api/customer/search?term=' + term);
   }
-  
+
   get(customerId: number): Observable<Customer | undefined> {
     return this.http.get<Customer>('/api/customer/' + customerId);
   }
@@ -26,7 +25,9 @@ export class CustomerService {
 
   update(customer: Customer): Observable<Customer> {
     // example url: /api/customer/5
-    return this.http.put<Customer>(`/api/customer/${customer.customerId}`, customer);
+    return this.http.put<Customer>(
+      `/api/customer/${customer.customerId}`,
+      customer
+    );
   }
-
 }

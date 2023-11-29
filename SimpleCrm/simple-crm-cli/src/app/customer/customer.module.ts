@@ -29,7 +29,7 @@ import { StatusIconPipe } from './status-icon.pipe';
     CustomerListPageAltComponent,
     CustomerCreateDialogComponent,
     CustomerDetailComponent,
-    StatusIconPipe
+    StatusIconPipe,
   ],
   imports: [
     CommonModule,
@@ -46,11 +46,14 @@ import { StatusIconPipe } from './status-icon.pipe';
     ReactiveFormsModule,
     MatInputModule,
     MatSelectModule,
-    MatSnackBarModule
+    MatSnackBarModule,
   ],
-  providers: [{
-    provide: CustomerService,
-    useClass: environment.production ? CustomerService : CustomerMockService,
-  }]
+  providers: [
+    {
+      provide: CustomerService,
+      useClass: CustomerService,
+      // useClass: environment.production ? CustomerService : CustomerMockService, // Mock service for development
+    },
+  ],
 })
-export class CustomerModule { }
+export class CustomerModule {}
