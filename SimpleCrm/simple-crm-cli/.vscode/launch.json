@@ -11,7 +11,7 @@
       "resolveSourceMapLocations": [
         "${workspaceFolder}/**",
         "!**/node_modules/**"
-    ],
+      ]
     },
     {
       "name": "ng test",
@@ -22,7 +22,7 @@
       "resolveSourceMapLocations": [
         "${workspaceFolder}/**",
         "!**/node_modules/**"
-    ],
+      ]
     }
   ]
 }
