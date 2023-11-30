@@ -15,6 +15,7 @@ import { FormControl } from '@angular/forms';
 })
 export class CustomerListPageComponent implements OnInit {
   filteredCustomers$: Observable<Customer[]>;
+  filterInput = new FormControl();
   // the column names must match the matColumnDef names in the html
   displayColumns = [
     'icon',
@@ -25,17 +26,21 @@ export class CustomerListPageComponent implements OnInit {
     'lastContactDate',
     'details',
   ];
-  filterInput = new FormControl();
 
   constructor(
     private customerService: CustomerService,
     public dialog: MatDialog,
     private router: Router
   ) {
+    // TODO: implement CustomerListParameters to match Api
+    // GetCustomers([FromQuery] CustomerListParameters resourceParameters)
     this.filteredCustomers$ = this.filterInput.valueChanges.pipe(
       startWith(''),
       debounceTime(700),
       switchMap((filterTerm: string) => {
+        if (filterTerm !== '') {
+          filterTerm = '?Term=' + filterTerm;
+        }
         return this.customerService.search(filterTerm);
       })
     );
