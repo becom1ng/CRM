@@ -1,4 +1,5 @@
-import { Inject, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,7 +14,6 @@ import { CustomerModule } from './customer/customer.module';
 import { AppIconsService } from './customer/app-icons.service';
 import { AccountModule } from './account/account.module';
 import { JwtInterceptor } from './account/jwt.interceptor';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],

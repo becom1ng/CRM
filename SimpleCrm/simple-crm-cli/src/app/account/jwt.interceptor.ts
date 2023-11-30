@@ -6,6 +6,8 @@ import {
   HttpInterceptor,
 } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { Router } from '@angular/router';
+import { AccountService } from './account.service';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -16,7 +18,7 @@ export class JwtInterceptor implements HttpInterceptor {
    * if no interceptors remain in the chain.
    * @returns An observable of the event stream.
    */
-  constructor() {}
+  constructor(private router: Router, private accountService: AccountService) {}
 
   // It should add the Authorization header to all outgoing requests, *IF* the current user is not anonymous.
   // The token to add to each request can be found in the UserSummary from localStorage.
@@ -31,20 +33,21 @@ export class JwtInterceptor implements HttpInterceptor {
         headers: request.headers.set('Authorization', 'Bearer ' + jwtToken),
       });
       return next.handle(clonedRequest);
-    } else {
-      return next.handle(request);
     }
 
-    // return next.handle(request).pipe(
-    //   tap(
-    //     (event: HttpEvent<any>) => {},
-    //     (err: any) => {
-    //       // TODO Exercise: this is where you can check for a 401 or other types of errors
-    //       // If the response returns a 401 Unauthorized, the interceptor should navigate the user to the login page.
-    //       // this.router.navigate(['login']) ??
-    //     }
-    //   )
-    // );
+    return next.handle(request).pipe(
+      tap(
+        (event: HttpEvent<any>) => {},
+        (err: any) => {
+          if (err.status === 401 || err.status === 403) {
+            this.accountService.logout({ navigate: false });
+            this.router.navigate(['login']);
+          } else {
+            return;
+          }
+        }
+      )
+    );
   }
 
   private getJwtToken() {

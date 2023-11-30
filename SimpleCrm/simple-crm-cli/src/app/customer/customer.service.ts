@@ -12,6 +12,7 @@ export class CustomerService {
   }
 
   search(term: string): Observable<Customer[]> {
+    // TODO: Generates 404 response. Either adjust this or add API endpoint.
     return this.http.get<Customer[]>('/api/customers/search?term=' + term);
   }
 
