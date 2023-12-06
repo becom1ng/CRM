@@ -1,4 +1,11 @@
-import { Action, createAction, createReducer, on } from '@ngrx/store';
+import {
+  Action,
+  createAction,
+  createFeatureSelector,
+  createReducer,
+  createSelector,
+  on,
+} from '@ngrx/store';
 
 export interface LayoutState {
   showSidenav: boolean;
@@ -8,8 +15,13 @@ const initialState: LayoutState = {
   showSidenav: false,
 };
 
-// you'll use this key later
 export const layoutFeatureKey = 'layout';
+const getLayoutFeature = createFeatureSelector<LayoutState>(layoutFeatureKey);
+
+export const selectShowSideNav = createSelector(
+  getLayoutFeature,
+  (state: LayoutState) => state.showSidenav
+);
 
 // Commonly, the start of the action name will include the module name in square brackets to ensure uniqueness.
 export const toggleSidenav = createAction('[Layout] Toggle Sidenav');
