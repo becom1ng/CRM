@@ -20,6 +20,8 @@ import { CustomerListPageComponent } from './customer-list-page/customer-list-pa
 import { CustomerCreateDialogComponent } from './customer-create-dialog/customer-create-dialog.component';
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 import { StatusIconPipe } from './status-icon.pipe';
+import { CustomerStoreEffects } from './store/customer.store.effects';
+import { EffectsModule } from '@ngrx/effects';
 @NgModule({
   declarations: [
     CustomerListPageComponent,
@@ -43,6 +45,7 @@ import { StatusIconPipe } from './status-icon.pipe';
     MatInputModule,
     MatSelectModule,
     MatSnackBarModule,
+    EffectsModule.forFeature([CustomerStoreEffects]),
   ],
   providers: [
     {

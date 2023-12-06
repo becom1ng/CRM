@@ -17,6 +17,7 @@ import { AppIconsService } from './customer/app-icons.service';
 import { AccountModule } from './account/account.module';
 import { JwtInterceptor } from './account/jwt.interceptor';
 import { layoutFeatureKey, layoutReducer } from './store/layout.store';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,6 +37,7 @@ import { layoutFeatureKey, layoutReducer } from './store/layout.store';
     StoreDevtoolsModule.instrument({
       name: 'Simple CRM',
     }),
+    EffectsModule.forRoot([]),
   ],
   providers: [
     AppIconsService,
