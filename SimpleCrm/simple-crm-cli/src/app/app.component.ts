@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { AccountService } from './account/account.service';
 import { Observable } from 'rxjs';
 import { UserSummaryViewModel } from './account/account.model';
+import { LayoutState, toggleSidenav } from './store/layout.store';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'crm-root',
@@ -16,11 +18,11 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private accountService: AccountService,
+    private store: Store<LayoutState>
   ) {}
 
   ngOnInit(): void {
-    // TODO: Should pipe should be used? Since <BehaviorSubject> is implemented in account
-    // service, then I might be able to use next() somehow??
+    // ? TODO: Should pipe or next() be used? Since <BehaviorSubject> is implemented in accountService
     this.userInfo$ = this.accountService.user.asObservable();
   }
 
@@ -30,5 +32,9 @@ export class AppComponent implements OnInit {
 
   public onLogout(): void {
     this.accountService.logout();
+  }
+
+  sideNavToggle() {
+    this.store.dispatch(toggleSidenav());
   }
 }

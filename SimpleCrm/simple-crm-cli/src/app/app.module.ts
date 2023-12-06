@@ -8,12 +8,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppComponent } from './app.component';
 
 import { CustomerModule } from './customer/customer.module';
 import { AppIconsService } from './customer/app-icons.service';
 import { AccountModule } from './account/account.module';
 import { JwtInterceptor } from './account/jwt.interceptor';
+import { layoutFeatureKey, layoutReducer } from './store/layout.store';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,6 +31,11 @@ import { JwtInterceptor } from './account/jwt.interceptor';
     MatSidenavModule,
     MatListModule,
     MatButtonModule,
+    StoreModule.forRoot({}), // for no global state, use an empty object,  {}.
+    StoreModule.forFeature(layoutFeatureKey, layoutReducer),
+    StoreDevtoolsModule.instrument({
+      name: 'Simple CRM',
+    }),
   ],
   providers: [
     AppIconsService,
