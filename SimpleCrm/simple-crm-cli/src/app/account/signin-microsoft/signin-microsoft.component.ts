@@ -15,7 +15,7 @@ export class SigninMicrosoftComponent {
     public route: ActivatedRoute,
     private router: Router,
     private accountService: AccountService,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
   ) {
     // the token is in the querystring value named 'code'
     this.route.queryParamMap.subscribe((prms) => {
@@ -30,7 +30,7 @@ export class SigninMicrosoftComponent {
             // your Angular service code can handle storing the current user.
             this.accountService.loginComplete(
               result,
-              'Email has been verified'
+              'Email has been verified',
             );
             this.router.navigate(['customers']);
             this.snackBar.dismiss();
@@ -42,11 +42,11 @@ export class SigninMicrosoftComponent {
             this.snackBar.open(
               'Verification Failed. Try to login with another account.',
               '',
-              { duration: 10000 }
+              { duration: 10000 },
             );
             this.router.navigate(['login']);
             this.snackBar.dismiss();
-          }
+          },
         );
       }
     });

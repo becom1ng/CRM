@@ -17,14 +17,12 @@ import { CustomerRoutingModule } from './customer-routing.module';
 import { CustomerService } from './customer.service';
 
 import { CustomerListPageComponent } from './customer-list-page/customer-list-page.component';
-import { CustomerListPageAltComponent } from './customer-list-page-alt/customer-list-page-alt.component';
 import { CustomerCreateDialogComponent } from './customer-create-dialog/customer-create-dialog.component';
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 import { StatusIconPipe } from './status-icon.pipe';
 @NgModule({
   declarations: [
     CustomerListPageComponent,
-    CustomerListPageAltComponent,
     CustomerCreateDialogComponent,
     CustomerDetailComponent,
     StatusIconPipe,

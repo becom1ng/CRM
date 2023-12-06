@@ -13,7 +13,10 @@ export class AppComponent implements OnInit {
   title = 'Simple CRM';
   userInfo$!: Observable<UserSummaryViewModel>;
 
-  constructor(private router: Router, private accountService: AccountService) {}
+  constructor(
+    private router: Router,
+    private accountService: AccountService,
+  ) {}
 
   ngOnInit(): void {
     // TODO: Should pipe should be used? Since <BehaviorSubject> is implemented in account

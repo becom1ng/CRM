@@ -23,6 +23,6 @@ export const AuthenticatedGuard = () => {
       //  return false;
       //}
       return true; // true, didn't find a reason to prevent access to the route
-    })
+    }),
   );
 };

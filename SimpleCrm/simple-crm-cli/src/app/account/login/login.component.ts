@@ -23,7 +23,7 @@ export class LoginComponent {
     private accountService: AccountService,
     public snackBar: MatSnackBar,
     private router: Router,
-    private platformLocation: PlatformLocation
+    private platformLocation: PlatformLocation,
   ) {
     this.currentUser = this.accountService.user;
     this.loginForm = this.fb.group({

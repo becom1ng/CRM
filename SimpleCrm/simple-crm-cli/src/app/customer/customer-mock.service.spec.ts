@@ -1,5 +1,8 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 
 import { CustomerMockService } from './customer-mock.service';
 
@@ -10,8 +13,8 @@ describe('CustomerMockService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
-      providers: [ CustomerMockService ]
+      imports: [HttpClientTestingModule],
+      providers: [CustomerMockService],
     });
     injector = getTestBed();
     service = injector.inject(CustomerMockService);
@@ -26,11 +29,11 @@ describe('CustomerMockService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('Get(1) should return observable of id 1', done => {
+  it('Get(1) should return observable of id 1', (done) => {
     const test$ = service.get(1);
-    test$.subscribe(result => {
+    test$.subscribe((result) => {
       expect(result?.customerId).toEqual(1);
       done();
-    })
+    });
   });
 });

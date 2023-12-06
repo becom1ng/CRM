@@ -21,7 +21,7 @@ import { environment } from 'src/environments/environment';
 export class AccountService {
   private baseUrl: string;
   private cachedUser = new BehaviorSubject<UserSummaryViewModel>(
-    anonymousUser()
+    anonymousUser(),
   );
   // BehaviorSubject is a type of Observable you can easily set the next value on.
   // Note the one above initializes it to the result of method call anonymousUser()
@@ -30,7 +30,7 @@ export class AccountService {
     private http: HttpClient, // part of Angular to make Http requests
     private router: Router, // part of Angular router, for navigating the user within the app
     private platformLocation: PlatformLocation,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {
     this.baseUrl = environment.server + environment.apiUrl + 'auth/';
     // this.cachedUser.next(anonymousUser()); // Already performed this action above
@@ -58,7 +58,7 @@ export class AccountService {
           return false;
         }
         return true;
-      })
+      }),
     );
   }
 
@@ -83,13 +83,13 @@ export class AccountService {
    * @param param0 credentials from login form (email and password)
    */
   public loginPassword(
-    credentials: CredentialsViewModel
+    credentials: CredentialsViewModel,
   ): Observable<UserSummaryViewModel> {
     this.cachedUser.next(anonymousUser());
     localStorage.removeItem('currentUser');
     return this.http.post<UserSummaryViewModel>(
       this.baseUrl + 'login',
-      credentials
+      credentials,
     );
   }
 
@@ -101,7 +101,7 @@ export class AccountService {
    */
   public loginComplete(
     data: UserSummaryViewModel,
-    successMessage: string
+    successMessage: string,
   ): void {
     this.cachedUser.next(data);
     localStorage.setItem('currentUser', JSON.stringify(data));
@@ -124,7 +124,7 @@ export class AccountService {
    */
   public loginMicrosoft(
     code: string,
-    state: string
+    state: string,
   ): Observable<UserSummaryViewModel> {
     const body = {
       accessToken: code,
@@ -133,7 +133,7 @@ export class AccountService {
     };
     return this.http.post<UserSummaryViewModel>(
       this.baseUrl + 'external/microsoft',
-      body
+      body,
     );
   }
 
@@ -144,7 +144,7 @@ export class AccountService {
    */
   public loginGoogle(
     code: string,
-    state: string
+    state: string,
   ): Observable<UserSummaryViewModel> {
     const body = {
       accessToken: code,
@@ -153,7 +153,7 @@ export class AccountService {
     };
     return this.http.post<UserSummaryViewModel>(
       this.baseUrl + 'external/google',
-      body
+      body,
     );
   }
 
@@ -180,7 +180,7 @@ export class AccountService {
    * @param user The user account to verify is still logged in
    */
   public verifyUser(
-    user: UserSummaryViewModel
+    user: UserSummaryViewModel,
   ): Observable<UserSummaryViewModel> {
     const model = {};
     const options =
@@ -190,7 +190,7 @@ export class AccountService {
     return this.http.post<UserSummaryViewModel>(
       this.baseUrl + 'verify',
       model,
-      options
+      options,
     );
   }
 }

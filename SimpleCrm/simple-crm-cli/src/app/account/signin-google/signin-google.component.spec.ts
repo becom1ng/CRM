@@ -8,7 +8,7 @@ describe('SigninGoogleComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SigninGoogleComponent]
+      declarations: [SigninGoogleComponent],
     });
     fixture = TestBed.createComponent(SigninGoogleComponent);
     component = fixture.componentInstance;

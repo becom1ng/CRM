@@ -9,7 +9,7 @@ import { SigninMicrosoftComponent } from './signin-microsoft/signin-microsoft.co
 const routes: Routes = [
   {
     path: 'register',
-    component: RegistrationComponent
+    component: RegistrationComponent,
   },
   {
     path: 'login',

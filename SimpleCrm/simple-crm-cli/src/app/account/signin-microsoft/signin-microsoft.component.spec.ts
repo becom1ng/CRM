@@ -8,7 +8,7 @@ describe('SigninMicrosoftComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SigninMicrosoftComponent]
+      declarations: [SigninMicrosoftComponent],
     });
     fixture = TestBed.createComponent(SigninMicrosoftComponent);
     component = fixture.componentInstance;

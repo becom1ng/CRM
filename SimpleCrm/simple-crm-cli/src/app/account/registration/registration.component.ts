@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'crm-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss']
+  styleUrls: ['./registration.component.scss'],
 })
 export class RegistrationComponent {
   registrationForm: FormGroup;
@@ -18,7 +18,7 @@ export class RegistrationComponent {
       emailAddress: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
       // TODO: ADD PASSWORD VERIFICATION FIELD
-    })
+    });
   }
 
   onSubmit(): void {
@@ -38,6 +38,6 @@ export class RegistrationComponent {
   }
 
   cancel(): void {
-    this.router.navigate(['./login'])
+    this.router.navigate(['./login']);
   }
 }

@@ -16,9 +16,9 @@ describe('StatusIconPipe', () => {
     expect(x).toEqual('question');
   });
   it('prOspEct (mixed case) should result in online', () => {
-      const pipe = new StatusIconPipe();
-      const x = pipe.transform('prOspEct');
-      expect(x).toEqual('question');
+    const pipe = new StatusIconPipe();
+    const x = pipe.transform('prOspEct');
+    expect(x).toEqual('question');
   });
   it('Purchased should result in shield', () => {
     const pipe = new StatusIconPipe();

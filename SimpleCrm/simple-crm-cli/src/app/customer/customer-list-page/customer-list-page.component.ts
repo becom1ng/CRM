@@ -30,7 +30,7 @@ export class CustomerListPageComponent implements OnInit {
   constructor(
     private customerService: CustomerService,
     public dialog: MatDialog,
-    private router: Router
+    private router: Router,
   ) {
     // TODO: implement CustomerListParameters to match Api
     // GetCustomers([FromQuery] CustomerListParameters resourceParameters)
@@ -42,7 +42,7 @@ export class CustomerListPageComponent implements OnInit {
           filterTerm = '?Term=' + filterTerm;
         }
         return this.customerService.search(filterTerm);
-      })
+      }),
     );
   }
 

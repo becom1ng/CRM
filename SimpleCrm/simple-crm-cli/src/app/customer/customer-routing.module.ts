@@ -12,7 +12,7 @@ const routes: Routes = [
     component: CustomerListPageComponent,
   },
   {
-    path: 'customers/:id', // id paramater
+    path: 'customers/:id', // id parameter
     pathMatch: 'full',
     component: CustomerDetailComponent,
     canActivate: [AuthenticatedGuard],

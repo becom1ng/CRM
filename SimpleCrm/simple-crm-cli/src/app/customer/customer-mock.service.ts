@@ -11,7 +11,7 @@ export class CustomerMockService extends CustomerService {
   constructor(http: HttpClient) {
     super(http);
     console.warn(
-      'Warning: You are using the CustomerMockService, not intended for production use.'
+      'Warning: You are using the CustomerMockService, not intended for production use.',
     );
 
     const localCustomers = localStorage.getItem('customers');
@@ -60,7 +60,7 @@ export class CustomerMockService extends CustomerService {
         (x.firstName + ' ' + x.lastName).indexOf(term) >= 0 ||
         x.phoneNumber.indexOf(term) >= 0 ||
         x.emailAddress.indexOf(term) >= 0 ||
-        x.statusCode.indexOf(term) >= 0
+        x.statusCode.indexOf(term) >= 0,
     );
     // convert to observable
     return of(items);
@@ -81,11 +81,11 @@ export class CustomerMockService extends CustomerService {
 
   override update(customer: Customer): Observable<Customer> {
     const match = this.customers.find(
-      (x) => x.customerId === customer.customerId
+      (x) => x.customerId === customer.customerId,
     );
     if (match) {
       this.customers = this.customers.map((x) =>
-        x.customerId === customer.customerId ? customer : x
+        x.customerId === customer.customerId ? customer : x,
       );
     } else {
       this.customers = [...this.customers, customer];

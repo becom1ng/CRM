@@ -32,7 +32,7 @@ export class CustomerService {
     // example url: /api/customers/5
     return this.http.put<Customer>(
       `/api/customers/${customer.customerId}`,
-      customer
+      customer,
     );
   }
 }
