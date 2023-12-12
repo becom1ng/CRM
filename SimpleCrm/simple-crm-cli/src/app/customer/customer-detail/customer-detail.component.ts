@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CustomerService } from '../customer.service';
 import { Customer } from '../customer.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { CustomerState } from '../store/customer.store.model';
+import { Store } from '@ngrx/store';
+import { selectCustomerById } from '../store/customer.store.selectors';
+import { updateCustomerAction } from '../store/customer.store';
 
 @Component({
   selector: 'crm-customer-detail',
@@ -14,55 +18,56 @@ export class CustomerDetailComponent implements OnInit {
   customerId!: number;
   customer!: Customer;
   detailForm!: FormGroup;
+  selectedCust$!: Observable<Customer | undefined>;
 
   constructor(
     private route: ActivatedRoute,
-    private customerService: CustomerService,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
+    private store: Store<CustomerState>
   ) {
     this.createForm();
   }
 
   public createForm(): void {
     this.detailForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      phoneNumber: [''],
-      emailAddress: ['', [Validators.required, Validators.email]],
-      preferredContactMethod: ['', [Validators.required]],
+      firstName: ['', [Validators.required, Validators.maxLength(50)]],
+      lastName: ['', [Validators.required, Validators.maxLength(50)]],
+      phoneNumber: ['', [Validators.minLength(7), Validators.maxLength(12)]],
+      emailAddress: [
+        '',
+        [Validators.required, Validators.email, Validators.maxLength(100)],
+      ],
+      preferredContactMethod: ['', Validators.required],
     });
   }
 
   ngOnInit(): void {
-    // convert id route param to number with the +
-    this.customerId = +this.route.snapshot.params['id'];
-
-    this.customerService //injected
-      .get(this.customerId)
-      .subscribe((cust) => {
-        // like listening to a JavaScript fetch call to return
-        if (cust) {
-          this.detailForm.patchValue(cust);
-          this.customer = cust;
-        }
-      });
+    this.selectedCust$ = this.store.select(
+      selectCustomerById(this.route.snapshot.params['id'])
+    );
+    this.selectedCust$.subscribe((cust) => {
+      if (cust) {
+        this.detailForm.patchValue(cust);
+        this.customer = cust;
+      }
+    });
   }
-  // THIS CODE IS NOT IDEAL!!  It works. And lots of people write code like this.
-  //  We will convert this to be better using RxJs and Observables in the advanced course.
 
   public save() {
     if (!this.detailForm.valid) {
       return;
     }
-    const customer = { ...this.customer, ...this.detailForm.value };
-    this.customerService.update(customer).subscribe({
-      next: (result) => {
-        this.snackBar.open('Customer saved', 'OK');
-      },
-      error: (err) => {
-        this.snackBar.open('An error occurred: ' + err, 'OK');
-      },
+    const customer: Customer = { ...this.customer, ...this.detailForm.value };
+    this.store.dispatch(updateCustomerAction({ item: customer }));
+    // TODO: Fix this functionality/multiple subscribers
+    this.selectedCust$.subscribe({
+      // next: (result) => {
+      //   this.snackBar.open('Customer saved', 'OK');
+      // },
+      // error: (err) => {
+      //   this.snackBar.open('An error occurred: ' + err, 'OK');
+      // },
     });
   }
 }

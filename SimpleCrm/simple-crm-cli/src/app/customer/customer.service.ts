@@ -12,11 +12,13 @@ export class CustomerService {
   }
 
   search(term: string): Observable<Customer[]> {
-    // TODO: Generates 404 response. Either adjust this or add API endpoint.
+    // TODO: Generates 404 as /search is not used in API. Either adjust this or add API endpoint.
     // return this.http.get<Customer[]>('/api/customers/search?term=' + term);
 
-    // TODO: implement CustomerListParameters to match Api
-    // GetCustomers([FromQuery] CustomerListParameters resourceParameters)
+    // ? TODO: implement CustomerListParameters to match Api
+    if (term !== '') {
+      term = '?Term=' + term;
+    }
     return this.http.get<Customer[]>('/api/customers' + term);
   }
 
@@ -25,14 +27,15 @@ export class CustomerService {
   }
 
   insert(customer: Customer): Observable<Customer> {
-    return this.http.post<Customer>('/api/customers/save', customer);
+    // ! TODO: Fix resulting 415 (Unsupported Media Type)
+    return this.http.post<Customer>('/api/customers/', customer);
   }
 
   update(customer: Customer): Observable<Customer> {
-    // example url: /api/customers/5
+    // ! TODO: Fix resulting 422 (see API ifMatch check)
     return this.http.put<Customer>(
       `/api/customers/${customer.customerId}`,
-      customer,
+      customer
     );
   }
 }

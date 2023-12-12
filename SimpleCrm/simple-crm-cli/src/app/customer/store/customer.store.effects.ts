@@ -2,8 +2,16 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CustomerService } from '../customer.service';
 import { switchMap, map } from 'rxjs';
+import {
+  addCustomerAction,
+  addCustomerCompleteAction,
+  searchCustomersAction,
+  searchCustomersCompleteAction,
+  updateCustomerAction,
+  updateCustomerCompleteAction,
+} from './customer.store';
+import { Customer } from '../customer.model';
 
-// Do NOT register any specific effects class in multiple places.
 @Injectable()
 export class CustomerStoreEffects {
   constructor(
@@ -14,17 +22,40 @@ export class CustomerStoreEffects {
   searchCustomers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(searchCustomersAction),
-      switchMap(
-        (
-          { criteria } // use rxjs, accept action payload
-        ) =>
-          this.custSvc.search(criteria.term).pipe(
-            // make service call
-            map(
-              // create action payload with API response data
-              (data) => searchCustomersCompleteAction({ result: data })
-            )
+      // use rxjs, accept action payload
+      switchMap(({ criteria }) =>
+        // make service call
+        this.custSvc.search(criteria.term).pipe(
+          // create action payload with API response data
+          map((data) => searchCustomersCompleteAction({ result: data }))
+        )
+      )
+    )
+  );
+
+  addCustomer$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(addCustomerAction),
+      switchMap(({ item }) =>
+        this.custSvc
+          .insert(item)
+          .pipe(map((data) => addCustomerCompleteAction({ result: data })))
+      )
+    )
+  );
+
+  // TODO: Combine effects, consider switch.
+  updateCustomer$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(updateCustomerAction),
+      switchMap(({ item }) =>
+        this.custSvc.update(item).pipe(
+          map((data: Customer) =>
+            updateCustomerCompleteAction({
+              result: { id: data.customerId, changes: { ...data } },
+            })
           )
+        )
       )
     )
   );

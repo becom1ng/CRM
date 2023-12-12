@@ -7,34 +7,22 @@
           <mat-form-field>
             <mat-label>Filter</mat-label>
             <input matInput [formControl]="filterInput" />
-            <button
-              mat-icon-button
-              *ngIf="filterInput.value"
-              matSuffix
-              aria-label="Clear"
-              (click)="filterInput.setValue('')"
-            >
+            <button mat-icon-button *ngIf="filterInput.value" matSuffix aria-label="Clear"
+              (click)="filterInput.setValue('')">
               <mat-icon>cancel</mat-icon>
             </button>
-            <mat-icon *ngIf="!filterInput.value" matSuffix
-              >filter_list</mat-icon
-            >
+            <mat-icon *ngIf="!filterInput.value" matSuffix>filter_list</mat-icon>
           </mat-form-field>
         </span>
         <span fxFlex=""> </span>
-        <button
-          class="addButton"
-          mat-mini-fab
-          fxflex="nogrow"
-          (click)="addCustomer()"
-        >
+        <button class="addButton" mat-mini-fab fxflex="nogrow" (click)="addCustomer()">
           <mat-icon aria-label="Add Customer">add</mat-icon>
         </button>
       </mat-card-title>
     </mat-card-header>
 
-    <table mat-table [dataSource]="filteredCustomers$" matSort>
-      <!-- Future sorting fix: column's name must match the data property name that the column displays. -->
+    <!-- <table mat-table [dataSource]="filteredCustomers$" matSort>
+      <!-- Future sorting fix: column's name must match the data property name that the column displays.
       <ng-container matColumnDef="icon">
         <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
         <td mat-cell *matCellDef="let row">
@@ -77,8 +65,11 @@
       <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
     </table>
-    <mat-paginator></mat-paginator>
+    <mat-paginator></mat-paginator> -->
 
+    <!-- <span style="margin: 10px">
+      <h2>SwitchMap to Service Call</h2>
+    </span>
     <table class="htmlAsyncTable">
       <thead>
         <tr>
@@ -123,21 +114,86 @@
     </table>
 
     <div class="list-container">
-      <mat-card
-        class="card-list"
-        *ngFor="let cust of filteredCustomers$ | async"
-      >
+      <mat-card class="card-list" *ngFor="let cust of filteredCustomers$ | async">
         <mat-card-header style="display: flow-root">
           <mat-card-title-group>
-            <mat-card-title
-              >{{ cust.firstName | titlecase }}
-              {{ cust.lastName | titlecase }}</mat-card-title
-            >
-            <button
-              mat-mini-fab
-              style="margin-left: 40px"
-              (click)="openDetail(cust)"
-            >
+            <mat-card-title>{{ cust.firstName | titlecase }}
+              {{ cust.lastName | titlecase }}</mat-card-title>
+            <button mat-mini-fab style="margin-left: 40px" (click)="openDetail(cust)">
+              <mat-icon [svgIcon]="cust.statusCode | statusIcon"></mat-icon>
+            </button>
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content>
+          {{ cust.phoneNumber }}
+        </mat-card-content>
+        <mat-card-content>
+          {{ cust.emailAddress }}
+        </mat-card-content>
+        <mat-card-content>
+          {{ cust.statusCode }}
+        </mat-card-content>
+        <mat-card-content>
+          {{ cust.lastContactDate | date }}
+        </mat-card-content>
+      </mat-card>
+    </div> -->
+
+    <!-- NgRx Store data -->
+    <span style="margin: 10px">
+      <h2>Tap to NgRx Action</h2>
+    </span>
+    <table class="htmlAsyncTable">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Last Contact</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cust of allCustomers$ | async">
+          <td>
+            <mat-icon [svgIcon]="cust.statusCode | statusIcon"></mat-icon>
+          </td>
+          <td>
+            {{ cust.firstName | titlecase }} {{ cust.lastName | titlecase }}
+          </td>
+          <td>
+            {{ cust.phoneNumber }}
+          </td>
+          <td>
+            {{ cust.emailAddress }}
+          </td>
+          <td>
+            {{ cust.statusCode }}
+          </td>
+          <td>
+            {{ cust.lastContactDate | date }}
+          </td>
+          <td (click)="openDetail(cust)">
+            <span fxLayoutAlign="end">
+              <button mat-icon-button color="primary">
+                <mat-icon aria-label="View customer detail">edit_note</mat-icon>
+              </button>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- NgRx Store data -->
+    <div class="list-container">
+      <mat-card class="card-list" *ngFor="let cust of allCustomers$ | async">
+        <mat-card-header style="display: flow-root">
+          <mat-card-title-group>
+            <mat-card-title>{{ cust.firstName | titlecase }}
+              {{ cust.lastName | titlecase }}</mat-card-title>
+            <button mat-mini-fab style="margin-left: 40px" (click)="openDetail(cust)">
               <mat-icon [svgIcon]="cust.statusCode | statusIcon"></mat-icon>
             </button>
           </mat-card-title-group>

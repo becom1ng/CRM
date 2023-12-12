@@ -2,11 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { Customer } from '../customer.model';
 import { CustomerService } from '../customer.service';
 import { Observable } from 'rxjs';
-import { debounceTime, startWith, switchMap } from 'rxjs/operators';
+import { debounceTime, startWith, switchMap, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomerCreateDialogComponent } from '../customer-create-dialog/customer-create-dialog.component';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import {
+  addCustomerAction,
+  searchCustomersAction,
+} from '../store/customer.store';
+import {
+  selectCriteria,
+  selectCustomers,
+} from '../store/customer.store.selectors';
+import { CustomerState } from '../store/customer.store.model';
 
 @Component({
   selector: 'crm-customer-list-page',
@@ -27,29 +37,49 @@ export class CustomerListPageComponent implements OnInit {
     'details',
   ];
 
+  // TODO: Is there a better way to implement these?
+  allCustomers$ = this.store.select(selectCustomers);
+  searchCriteria!: string;
+
   constructor(
+    private store: Store<CustomerState>,
     private customerService: CustomerService,
     public dialog: MatDialog,
-    private router: Router,
+    private router: Router
   ) {
-    // TODO: implement CustomerListParameters to match Api
-    // GetCustomers([FromQuery] CustomerListParameters resourceParameters)
     this.filteredCustomers$ = this.filterInput.valueChanges.pipe(
       startWith(''),
       debounceTime(700),
-      switchMap((filterTerm: string) => {
-        if (filterTerm !== '') {
-          filterTerm = '?Term=' + filterTerm;
-        }
-        return this.customerService.search(filterTerm);
+      tap((filterTerm: string) => {
+        this.searchCustomers(filterTerm);
       }),
+      switchMap((filterTerm: string) => {
+        return this.customerService.search(filterTerm);
+      })
     );
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // ? TODO: Consider using term from the store so that the most recent search persists (state.criteria)
+    // ? Current implementation of tap (above) with live search (startWith) overwrites the store term.
+
+    // this.store.dispatch(searchCustomersAction({ criteria: { term: '' } }));
+    this.store.select(selectCriteria).subscribe(({ term }) => {
+      this.searchCriteria = term;
+    });
+    this.searchCustomers(this.searchCriteria);
+  }
+
+  searchCustomers(term: string): void {
+    this.store.dispatch(searchCustomersAction({ criteria: { term: term } }));
+  }
 
   openDetail(item: Customer): void {
     if (item) {
+      // ? TODO: Use selector for new detail display instead of router.navigate?
+      // var selectedCust$ = this.store.select(
+      //   selectCustomerById(item.customerId.toString())
+      // );
       this.router.navigate([`./customers/${item.customerId}`]);
     }
   }
@@ -58,6 +88,12 @@ export class CustomerListPageComponent implements OnInit {
     const dialogRef = this.dialog.open(CustomerCreateDialogComponent, {
       width: '260px',
       data: null,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // Add/create customer using dialog data
+        this.store.dispatch(addCustomerAction(result));
+      }
     });
   }
 }

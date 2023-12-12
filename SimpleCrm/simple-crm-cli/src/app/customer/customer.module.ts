@@ -22,6 +22,9 @@ import { CustomerDetailComponent } from './customer-detail/customer-detail.compo
 import { StatusIconPipe } from './status-icon.pipe';
 import { CustomerStoreEffects } from './store/customer.store.effects';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { customerFeatureKey } from './store/customer.store.selectors';
+import { customerReducer } from './store/customer.store';
 @NgModule({
   declarations: [
     CustomerListPageComponent,
@@ -46,6 +49,7 @@ import { EffectsModule } from '@ngrx/effects';
     MatSelectModule,
     MatSnackBarModule,
     EffectsModule.forFeature([CustomerStoreEffects]),
+    StoreModule.forFeature(customerFeatureKey, customerReducer),
   ],
   providers: [
     {
