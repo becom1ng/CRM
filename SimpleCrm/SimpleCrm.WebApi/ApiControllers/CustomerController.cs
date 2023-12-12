@@ -136,7 +136,7 @@ namespace SimpleCrm.WebApi.ApiControllers
             if (ifMatch != customer.LastModified.ToString())
             {
                 // TODO: Address this problem and restore the return functionality.
-                Console.log("If-Match header did not match customer.lastmodified");
+                Console.WriteLine("If-Match header did not match customer.lastmodified");
                 // return StatusCode(422, "The customer data has been changed since it was requested. Please reload and try again."); // 422
             }
 
