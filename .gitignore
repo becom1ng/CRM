@@ -348,3 +348,5 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+SimpleCrm/SimpleCrm.WebApi/wwwroot/css/
+SimpleCrm/SimpleCrm.WebApi/wwwroot/js/
