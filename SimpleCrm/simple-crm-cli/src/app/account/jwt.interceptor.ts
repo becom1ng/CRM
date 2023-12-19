@@ -18,16 +18,13 @@ export class JwtInterceptor implements HttpInterceptor {
    * if no interceptors remain in the chain.
    * @returns An observable of the event stream.
    */
-  constructor(
-    private router: Router,
-    private accountService: AccountService,
-  ) {}
+  constructor(private router: Router, private accountService: AccountService) {}
 
   // It should add the Authorization header to all outgoing requests, *IF* the current user is not anonymous.
   // The token to add to each request can be found in the UserSummary from localStorage.
   intercept(
     request: HttpRequest<any>,
-    next: HttpHandler,
+    next: HttpHandler
   ): Observable<HttpEvent<any>> {
     console.log('JwtInterceptor reached.');
     const jwtToken = this.getJwtToken();
@@ -35,7 +32,21 @@ export class JwtInterceptor implements HttpInterceptor {
       const clonedRequest = request.clone({
         headers: request.headers.set('Authorization', 'Bearer ' + jwtToken),
       });
-      return next.handle(clonedRequest);
+      // return next.handle(clonedRequest);
+      // TODO: Refactor
+      return next.handle(clonedRequest).pipe(
+        tap(
+          (event: HttpEvent<any>) => {},
+          (err: any) => {
+            if (err.status === 401 || err.status === 403) {
+              this.accountService.logout({ navigate: false });
+              this.router.navigate(['login']);
+            } else {
+              return;
+            }
+          }
+        )
+      );
     }
 
     return next.handle(request).pipe(
@@ -48,8 +59,8 @@ export class JwtInterceptor implements HttpInterceptor {
           } else {
             return;
           }
-        },
-      ),
+        }
+      )
     );
   }
 
