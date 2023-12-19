@@ -19,6 +19,7 @@ export class CustomerStoreEffects {
     private custSvc: CustomerService // <-- this is your service to be called for some actions
   ) {}
 
+  // TODO: Combine effects?
   searchCustomers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(searchCustomersAction),
@@ -44,7 +45,6 @@ export class CustomerStoreEffects {
     )
   );
 
-  // TODO: Combine effects, consider switch.
   updateCustomer$ = createEffect(() =>
     this.actions$.pipe(
       ofType(updateCustomerAction),

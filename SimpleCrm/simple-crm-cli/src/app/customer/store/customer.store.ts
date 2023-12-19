@@ -10,27 +10,28 @@ import { Update } from '@ngrx/entity';
 
 // * Actions
 export const searchCustomersAction = createAction(
-  '[Customer] Search Customers',
+  '[Customer List] Search Customers',
   props<{ criteria: customerSearchCriteria }>()
 );
 export const searchCustomersCompleteAction = createAction(
-  '[Customer] Search Customers Completed',
+  '[Customer API] Search Customers Completed',
   props<{ result: Customer[] }>()
 );
 export const addCustomerAction = createAction(
-  '[Customer] Add Customer',
+  '[Customer List] Add Customer',
   props<{ item: Customer }>()
 );
 export const addCustomerCompleteAction = createAction(
-  '[Customer] Add Customer Completed',
+  // TODO: Change "completed" to "success", and consider adding failure action
+  '[Customer API] Add Customer Completed',
   props<{ result: Customer }>()
 );
 export const updateCustomerAction = createAction(
-  '[Customer] Update Customer',
+  '[Customer Detail] Update Customer',
   props<{ item: Customer }>()
 );
 export const updateCustomerCompleteAction = createAction(
-  '[Customer] Update Customer Completed',
+  '[Customer API] Update Customer Completed',
   props<{ result: Update<Customer> }>()
 );
 

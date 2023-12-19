@@ -18,6 +18,7 @@ import { AccountModule } from './account/account.module';
 import { JwtInterceptor } from './account/jwt.interceptor';
 import { layoutFeatureKey, layoutReducer } from './store/layout.store';
 import { EffectsModule } from '@ngrx/effects';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,9 +35,11 @@ import { EffectsModule } from '@ngrx/effects';
     MatButtonModule,
     StoreModule.forRoot({}), // for no global state, use an empty object,  {}.
     StoreModule.forFeature(layoutFeatureKey, layoutReducer),
-    StoreDevtoolsModule.instrument({
-      name: 'Simple CRM',
-    }),
+    !environment.production
+      ? StoreDevtoolsModule.instrument({
+          name: 'Simple CRM',
+        })
+      : [],
     EffectsModule.forRoot([]),
   ],
   providers: [

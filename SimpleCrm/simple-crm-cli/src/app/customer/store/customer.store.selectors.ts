@@ -30,7 +30,7 @@ export const selectCustTotal = createSelector(
   selectCustomerTotal
 );
 
-// To aid in search term persistence between page loads.
+// To aid in search term persistence when switching from the customer list page and back.
 export const selectCriteria = createSelector(
   getCustomerFeature,
   (state: CustomerState) => state.criteria

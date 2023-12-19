@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CustomerCreateDialogComponent } from '../customer-create-dialog/customer-create-dialog.component';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import {
   addCustomerAction,
   searchCustomersAction,
@@ -40,6 +40,7 @@ export class CustomerListPageComponent implements OnInit {
   // TODO: Is there a better way to implement these?
   allCustomers$ = this.store.select(selectCustomers);
   searchCriteria!: string;
+  searchCriteria$ = this.store.pipe(select(selectCriteria));
 
   constructor(
     private store: Store<CustomerState>,
@@ -55,6 +56,9 @@ export class CustomerListPageComponent implements OnInit {
       }),
       switchMap((filterTerm: string) => {
         return this.customerService.search(filterTerm);
+        // ! TODO: Eliminate this second service call.
+        // Return Observable<Customer[]> in another way: of(item), etc.
+        // return this.searchCustomers(filterTerm) => return type mismatch
       })
     );
   }
@@ -77,6 +81,7 @@ export class CustomerListPageComponent implements OnInit {
   openDetail(item: Customer): void {
     if (item) {
       // ? TODO: Use selector for new detail display instead of router.navigate?
+      // Seems pointless because the HTML action already has the entire customer object, so not need to select.
       // var selectedCust$ = this.store.select(
       //   selectCustomerById(item.customerId.toString())
       // );
