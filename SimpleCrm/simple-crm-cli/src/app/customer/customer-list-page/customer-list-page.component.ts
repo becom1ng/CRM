@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Customer } from '../customer.model';
 import { CustomerService } from '../customer.service';
 import { Observable } from 'rxjs';
@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CustomerCreateDialogComponent } from '../customer-create-dialog/customer-create-dialog.component';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import {
   addCustomerAction,
   searchCustomersAction,
@@ -22,25 +22,17 @@ import { CustomerState } from '../store/customer.store.model';
   selector: 'crm-customer-list-page',
   templateUrl: './customer-list-page.component.html',
   styleUrls: ['./customer-list-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomerListPageComponent implements OnInit {
   filteredCustomers$: Observable<Customer[]>;
   filterInput = new FormControl();
-  // the column names must match the matColumnDef names in the html
-  displayColumns = [
-    'icon',
-    'name',
-    'phoneNumber',
-    'emailAddress',
-    'status',
-    'lastContactDate',
-    'details',
-  ];
 
   // TODO: Is there a better way to implement these?
   allCustomers$ = this.store.select(selectCustomers);
+  allCustomers!: Customer[];
+  searchCriteria$ = this.store.select(selectCriteria);
   searchCriteria!: string;
-  searchCriteria$ = this.store.pipe(select(selectCriteria));
 
   constructor(
     private store: Store<CustomerState>,
@@ -48,8 +40,12 @@ export class CustomerListPageComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router
   ) {
+    this.searchCriteria$.subscribe(({ term }) => {
+      this.searchCriteria = term;
+    });
+    this.allCustomers$.subscribe((x) => (this.allCustomers = x));
     this.filteredCustomers$ = this.filterInput.valueChanges.pipe(
-      startWith(''),
+      startWith(this.searchCriteria),
       debounceTime(700),
       tap((filterTerm: string) => {
         this.searchCustomers(filterTerm);
@@ -58,20 +54,13 @@ export class CustomerListPageComponent implements OnInit {
         return this.customerService.search(filterTerm);
         // ! TODO: Eliminate this second service call.
         // Return Observable<Customer[]> in another way: of(item), etc.
-        // return this.searchCustomers(filterTerm) => return type mismatch
+        // this.searchCustomers(filterTerm) => return type mismatch
       })
     );
   }
 
   ngOnInit(): void {
-    // ? TODO: Consider using term from the store so that the most recent search persists (state.criteria)
-    // ? Current implementation of tap (above) with live search (startWith) overwrites the store term.
-
-    // this.store.dispatch(searchCustomersAction({ criteria: { term: '' } }));
-    this.store.select(selectCriteria).subscribe(({ term }) => {
-      this.searchCriteria = term;
-    });
-    this.searchCustomers(this.searchCriteria);
+    this.filterInput.setValue(this.searchCriteria);
   }
 
   searchCustomers(term: string): void {
@@ -80,11 +69,6 @@ export class CustomerListPageComponent implements OnInit {
 
   openDetail(item: Customer): void {
     if (item) {
-      // ? TODO: Use selector for new detail display instead of router.navigate?
-      // Seems pointless because the HTML action already has the entire customer object, so not need to select.
-      // var selectedCust$ = this.store.select(
-      //   selectCustomerById(item.customerId.toString())
-      // );
       this.router.navigate([`./customers/${item.customerId}`]);
     }
   }

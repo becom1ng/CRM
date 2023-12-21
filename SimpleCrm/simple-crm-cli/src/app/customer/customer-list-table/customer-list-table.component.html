@@ -1,0 +1,70 @@
+<div class="customer-table-container">
+  <table class="htmlAsyncTable">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Status</th>
+        <th>Last Contact</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cust of customers">
+        <td>
+          <mat-icon [svgIcon]="cust.statusCode | statusIcon"></mat-icon>
+        </td>
+        <td>
+          {{ cust.firstName | titlecase }} {{ cust.lastName | titlecase }}
+        </td>
+        <td>
+          {{ cust.phoneNumber }}
+        </td>
+        <td>
+          {{ cust.emailAddress }}
+        </td>
+        <td>
+          {{ cust.statusCode }}
+        </td>
+        <td>
+          {{ cust.lastContactDate | date }}
+        </td>
+        <td (click)="openDetailClick(cust)">
+          <span fxLayoutAlign="end">
+            <button mat-icon-button color="primary">
+              <mat-icon aria-label="View customer detail">edit_note</mat-icon>
+            </button>
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="list-container">
+    <mat-card class="card-list" *ngFor="let cust of customers">
+      <mat-card-header style="display: flow-root">
+        <mat-card-title-group>
+          <mat-card-title>{{ cust.firstName | titlecase }}
+            {{ cust.lastName | titlecase }}</mat-card-title>
+          <button mat-mini-fab style="margin-left: 40px" (click)="openDetailClick(cust)">
+            <mat-icon [svgIcon]="cust.statusCode | statusIcon"></mat-icon>
+          </button>
+        </mat-card-title-group>
+      </mat-card-header>
+      <mat-card-content>
+        {{ cust.phoneNumber }}
+      </mat-card-content>
+      <mat-card-content>
+        {{ cust.emailAddress }}
+      </mat-card-content>
+      <mat-card-content>
+        {{ cust.statusCode }}
+      </mat-card-content>
+      <mat-card-content>
+        {{ cust.lastContactDate | date }}
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
