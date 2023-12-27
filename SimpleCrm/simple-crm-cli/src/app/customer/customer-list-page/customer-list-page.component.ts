@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Customer } from '../customer.model';
 import { CustomerService } from '../customer.service';
-import { Observable } from 'rxjs';
-import { debounceTime, startWith, switchMap, tap } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { debounceTime, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomerCreateDialogComponent } from '../customer-create-dialog/customer-create-dialog.component';
 import { Router } from '@angular/router';
@@ -28,11 +28,11 @@ export class CustomerListPageComponent implements OnInit {
   filteredCustomers$: Observable<Customer[]>;
   filterInput = new FormControl();
 
-  // TODO: Is there a better way to implement these?
+  // allCustomers!: Customer[];
+  // searchCriteria$ = this.store.select(selectCriteria);
+  // searchCriteria!: string;
+  // Store data
   allCustomers$ = this.store.select(selectCustomers);
-  allCustomers!: Customer[];
-  searchCriteria$ = this.store.select(selectCriteria);
-  searchCriteria!: string;
 
   constructor(
     private store: Store<CustomerState>,
@@ -40,27 +40,35 @@ export class CustomerListPageComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router
   ) {
-    this.searchCriteria$.subscribe(({ term }) => {
-      this.searchCriteria = term;
-    });
-    this.allCustomers$.subscribe((x) => (this.allCustomers = x));
-    this.filteredCustomers$ = this.filterInput.valueChanges.pipe(
-      startWith(this.searchCriteria),
-      debounceTime(700),
-      tap((filterTerm: string) => {
-        this.searchCustomers(filterTerm);
-      }),
-      switchMap((filterTerm: string) => {
-        return this.customerService.search(filterTerm);
-        // ! TODO: Eliminate this second service call.
-        // Return Observable<Customer[]> in another way: of(item), etc.
-        // this.searchCustomers(filterTerm) => return type mismatch
+    // this.searchCriteria$.subscribe(({ term }) => {
+    //   this.searchCriteria = term;
+    // });
+    // this.allCustomers$.subscribe((x) => (this.allCustomers = x));
+
+    this.filteredCustomers$ = combineLatest([
+      this.allCustomers$,
+      this.filterInput.valueChanges.pipe(startWith(''), debounceTime(700)),
+    ]).pipe(
+      map(([customers, term]) => {
+        return customers.filter(
+          // TODO: fix case sensitivity (tolowerinvariant)
+          // The term AND the array data needs to be transformed
+          (x) =>
+            x.lastName.indexOf(term.tolowerinvariant) >= 0 ||
+            x.firstName.indexOf(term.tolowerinvariant) >= 0 ||
+            (x.firstName + ' ' + x.lastName).indexOf(term.tolowerinvariant) >=
+              0 ||
+            x.phoneNumber.indexOf(term) >= 0 ||
+            x.emailAddress.indexOf(term.tolowerinvariant) >= 0
+          // ||
+          // x.statusCode.indexOf(term) >= 0
+        );
       })
     );
   }
 
   ngOnInit(): void {
-    this.filterInput.setValue(this.searchCriteria);
+    this.searchCustomers('');
   }
 
   searchCustomers(term: string): void {
