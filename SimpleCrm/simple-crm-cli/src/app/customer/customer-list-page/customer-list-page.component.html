@@ -21,7 +21,6 @@
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <!-- ! TODO: (filteredCustomers$ | async) triggers updates, but (allCustomers$ | async) does not -->
       <crm-customer-list-table [customers]="(filteredCustomers$ | async)"
         (openCustomer)="openDetail($event)"></crm-customer-list-table>
     </mat-card-content>
