@@ -1,4 +1,49 @@
 <div class="customer-table-container">
+
+  <table mat-table [dataSource]="customers" [trackBy]="trackByUserId">
+    <ng-container matColumnDef="statusIcon">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let cust">
+        <mat-icon [svgIcon]="cust.statusCode | statusIcon"></mat-icon>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let cust"> {{cust.firstName}} {{cust.lastName}} </td>
+    </ng-container>
+    <ng-container matColumnDef="phoneNumber">
+      <th mat-header-cell *matHeaderCellDef> Phone </th>
+      <td mat-cell *matCellDef="let cust"> {{cust.phoneNumber}} </td>
+    </ng-container>
+    <ng-container matColumnDef="emailAddress">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let cust"> {{cust.emailAddress}} </td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let cust"> {{cust.statusCode}} </td>
+    </ng-container>
+    <ng-container matColumnDef="lastContactDate">
+      <th mat-header-cell *matHeaderCellDef> Last Contact </th>
+      <td mat-cell *matCellDef="let cust"> {{cust.lastContactDate | date}} </td>
+    </ng-container>
+    <ng-container matColumnDef="openDetailButton">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let cust" (click)="openDetailClick(cust)">
+        <span fxLayoutAlign="end">
+          <button mat-icon-button color="primary">
+            <mat-icon aria-label="View customer detail">edit_note</mat-icon>
+          </button>
+        </span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+  </table>
+  <mat-paginator *ngIf="customers.length > 5" [pageSize]="5" [length]="customers.length"></mat-paginator>
+
+  <!-- <h2>HTML Async Table</h2>
   <table class="htmlAsyncTable">
     <thead>
       <tr>
@@ -12,7 +57,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let cust of customers">
+      <tr *ngFor="let cust of customers; index as i; trackBy: trackByUserId">
         <td>
           <mat-icon [svgIcon]="cust.statusCode | statusIcon"></mat-icon>
         </td>
@@ -40,10 +85,10 @@
         </td>
       </tr>
     </tbody>
-  </table>
+  </table> -->
 
   <div class="list-container">
-    <mat-card class="card-list" *ngFor="let cust of customers">
+    <mat-card class="card-list" *ngFor="let cust of customers; index as i; trackBy: trackByUserId">
       <mat-card-header style="display: flow-root">
         <mat-card-title-group>
           <mat-card-title>{{ cust.firstName | titlecase }}

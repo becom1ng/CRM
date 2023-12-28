@@ -21,7 +21,7 @@
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <crm-customer-list-table [customers]="(filteredCustomers$ | async)"
+      <crm-customer-list-table *ngIf="filteredCustomers$ | async as filteredCustomers" [customers]="filteredCustomers"
         (openCustomer)="openDetail($event)"></crm-customer-list-table>
     </mat-card-content>
   </mat-card>
