@@ -7,12 +7,12 @@ import { AuthenticatedGuard } from '../account/authenticated.guard';
 
 const routes: Routes = [
   {
-    path: 'customers',
+    path: '',
     pathMatch: 'full',
     component: CustomerListPageComponent,
   },
   {
-    path: 'customers/:id', // id parameter
+    path: ':id', // id parameter
     pathMatch: 'full',
     component: CustomerDetailComponent,
     canActivate: [AuthenticatedGuard],

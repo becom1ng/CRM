@@ -4,7 +4,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CustomerRoutingModule } from './customer-routing.module';
 import { CustomerService } from './customer.service';
+import { JwtInterceptor } from '../account/jwt.interceptor';
 
 import { CustomerListPageComponent } from './customer-list-page/customer-list-page.component';
 import { CustomerCreateDialogComponent } from './customer-create-dialog/customer-create-dialog.component';
@@ -57,6 +58,11 @@ import { CustomerListTableComponent } from './customer-list-table/customer-list-
     {
       provide: CustomerService,
       useClass: CustomerService,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true,
     },
   ],
 })

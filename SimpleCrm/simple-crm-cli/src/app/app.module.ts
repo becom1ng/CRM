@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -11,8 +11,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppComponent } from './app.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { CustomerModule } from './customer/customer.module';
 import { AppIconsService } from './customer/app-icons.service';
 import { AccountModule } from './account/account.module';
 import { JwtInterceptor } from './account/jwt.interceptor';
@@ -27,7 +27,8 @@ import { environment } from 'src/environments/environment';
     AppRoutingModule,
     AccountModule,
     BrowserAnimationsModule,
-    CustomerModule,
+    HttpClientModule,
+    MatSnackBarModule,
     MatToolbarModule,
     MatIconModule,
     MatSidenavModule,
