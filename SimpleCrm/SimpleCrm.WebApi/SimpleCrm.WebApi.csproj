@@ -7,7 +7,8 @@
 	<SpaRoot>..\simple-crm-cli\</SpaRoot>
 	<SpaRootDest>ClientApp\</SpaRootDest>
 	<BuildServerSideRenderer>false</BuildServerSideRenderer>
-    <UserSecretsId>b2ba6e94-a758-4634-931c-b71cb46204d2</UserSecretsId>
+	<UserSecretsId>b2ba6e94-a758-4634-931c-b71cb46204d2</UserSecretsId>
+	<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +25,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.24" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.20.0" />
   </ItemGroup>
 
