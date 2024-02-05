@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   userInfo$!: Observable<UserSummaryViewModel>;
   showSideNav$: Observable<boolean>;
 
-  // TODO: remove router and accountservice injection (see https://www.nexulacademy.com/courseware/angular-advanced/ngrx-actions-reducers)
+  // TODO: remove router and accountservice injection as they can be removed with store (see https://www.nexulacademy.com/courseware/angular-advanced/ngrx-actions-reducers)
   constructor(
     private router: Router,
     private accountService: AccountService,
