@@ -22,6 +22,6 @@ As this project was primarily a learning tool, there is a wide variety of techni
   - Effects
   - Entity
 - Performance optimization (Angular):
- - OnPush change detection
- - Lazy loading modules
- - trackBy for *ngFor
+  - OnPush change detection
+  - Lazy loading modules
+  - trackBy for *ngFor
