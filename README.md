@@ -16,7 +16,7 @@ As this project was primarily a learning tool, there is a wide variety of techni
 - OAuth
 - Swagger & NSwag
 - Global custom exception handling
-- RxJs
+- RxJS
 - NgRx:
   - Store
   - Effects
